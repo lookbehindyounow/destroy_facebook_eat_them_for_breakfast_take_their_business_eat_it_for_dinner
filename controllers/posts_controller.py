@@ -21,7 +21,7 @@ def show_post(user_id,id):
 def post_form(user_id):
     return render_template("new.jinja",user_id=user_id,post=None)
 
-@posts_blueprint.route("/<user_id>/",methods=["POST"])
+@posts_blueprint.route("/<user_id>",methods=["POST"])
 def post_post(user_id):
     post=Post(user_id=user_id,content=request.form["content"])
     db.session.add(post)
