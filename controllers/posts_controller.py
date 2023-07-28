@@ -19,7 +19,7 @@ def show_post(id):
 
 @posts_blueprint.route("/new_post")
 def post_form():
-    return render_template("new_post.jinja")
+    return render_template("new.jinja",post=None)
 
 @posts_blueprint.route("/",methods=["POST"])
 def post_post():
@@ -27,3 +27,16 @@ def post_post():
     db.session.add(post)
     db.session.commit()
     return redirect("/")
+
+@posts_blueprint.route("/<id>/new_comment")
+def comment_form(id):
+    post=Post.query.get(id)
+    comments=post.get_comments()
+    return render_template("new.jinja",post=post,comments=comments)
+
+@posts_blueprint.route("/<id>",methods=["POST"])
+def post_comment(id):
+    comment=Comment(post_id=id,content=request.form["content"])
+    db.session.add(comment)
+    db.session.commit()
+    return redirect(f"/{id}")

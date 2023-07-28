@@ -1,0 +1,21 @@
+{% extends 'base.jinja' %}{% block content %}
+    {% if post is not none %}
+        {# user's name #}
+        <p>{{post.content}}</p>
+        <hr/>
+        {# likes CALL THEM APPROVALS HAHA #}
+        {% for comment in comments %}
+            <p>{{comment.content}}</p>
+            <br/>
+        {% endfor %}
+    {% endif %}
+    <form action="/{% if post is not none %}{{post.id}}{% endif %}" method="post">
+        {% if post==none %}
+            <label for="content">you have to tell them they need to know</label>
+        {% else %}
+            <label for="content">they care so much they want to hear your thoughts on the matter no really they do</label>
+        {% endif %}
+        <input type="text" name="content" id="content" required autofocus/>
+        <button type="submit">Post</button>
+    </form>
+{% endblock content %}

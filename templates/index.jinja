@@ -1,12 +1,11 @@
 {% extends "base.jinja" %}{% block content %}{% for post in posts %}
 <div class="post">
-  <div class="post__content">
-    <p>{{post[0].content}}</p>
-  </div>
+  <p class="post__body content"><a class="post--link" href="/{{post[0].id}}">{{post[0].content}}</a></p>
+  <br/>
   {# likes #}
   {% if post[1]!=0 %}
-    <a href="/{{post[0].id}}">{{post[1]}} comment{% if post[1]!=1 %}s{% endif %}</a>
+    <p class="post__body comment_count"><a class="post--link" href="/{{post[0].id}}">{{post[1]}} comment{% if post[1]!=1 %}s{% endif %}</a></p>
   {% endif %}
-  <br/>
 </div>
+<br/>
 {% endfor %}{% endblock %}
