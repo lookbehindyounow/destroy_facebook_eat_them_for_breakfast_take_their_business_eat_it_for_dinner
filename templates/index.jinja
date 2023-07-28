@@ -4,7 +4,9 @@
     <p>{{post[0].content}}</p>
   </div>
   {# likes #}
-  <p>{% if post[1]!=0 %}{{post[1]}} comment{% if post[1]!=1 %}s{% endif %}{% endif %}</p>
+  {% if post[1]!=0 %}
+    <a href="/{{post[0].id}}">{{post[1]}} comment{% if post[1]!=1 %}s{% endif %}</a>
+  {% endif %}
   <br/>
 </div>
 {% endfor %}{% endblock %}
