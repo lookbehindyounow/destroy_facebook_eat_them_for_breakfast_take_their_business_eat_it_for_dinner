@@ -1,9 +1,3 @@
-# IMPORTANT - to run you need to open a terminal & type the commands:
-# createdb personcatalog
-# flask db init
-# flask db migrate
-# flask db upgrade
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
