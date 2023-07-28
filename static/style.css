@@ -1,0 +1,101 @@
+body {
+    font-family: "Helvetica", arial, sans-serif;
+    font-size: 16px;
+    background: rgb(252, 254, 255);
+  }
+  
+  .task {
+    border: 1px solid #ccc;
+    width: 100%;
+    padding: 1.5rem;
+    display: flex;
+    line-height: 18px;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .task__content {
+    width: 100%;
+  }
+  
+  .task__description {
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .task__description a {
+    color: black;
+  }
+  
+  .task__duration {
+    color: #8899a6;
+    font-size: 1rem;
+  }
+  
+  .buttons {
+    margin-top: 10px;
+    margin-left: 2px;
+    font-size: 1.4em;
+    color: #aab8c2;
+  }
+  
+  .buttons i {
+    font-size: 2.5rem;
+  }
+  
+  input,
+  select,
+  button {
+    font-size: 100%;
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+    box-sizing: border-box;
+  }
+  
+  .trash-button {
+    display: contents;
+    cursor: pointer;
+    margin-right: 2rem;
+  }
+  
+  .delete-form {
+    display: inline;
+  }
+  
+  .menu {
+    display: flex;
+    padding: 10px;
+    background-color: grey;
+    color: white;
+  }
+  
+  .menu li a {
+    text-decoration: none;
+  }
+  
+  .menu li a:visited {
+    color: white;
+  }
+  
+  .menu li {
+    padding-right: 10px;
+    list-style: none;
+    color: white;
+    font-family: "Helvetica", arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 500px;
+    margin: 0 auto;
+  }

@@ -1,0 +1,5 @@
+{% extends "base.jinja" %} {% block content %} {% for user in users %}
+<div class="user">
+  <a href="/users/{{user.id}}">{{user.first_name}} {{user.last_name}}</a>
+</div>
+{% endfor %} {% endblock %}

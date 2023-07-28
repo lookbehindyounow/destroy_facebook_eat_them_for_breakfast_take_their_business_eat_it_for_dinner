@@ -1,0 +1,29 @@
+{% extends 'base.jinja' %}{% block content %}
+    <h1>{{game.title}}</h1>
+    <h2>{{game.genre}}</h2>
+    <p>{{game.description}}</p>
+    {# ADD AGE RATING ICON #}
+    {% if game_user == None %}
+    <form action="/games/{{game.id}}/check_out" method="post">
+        <select name="user" id="user" required>
+            {% for user in users %}
+                <option value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Check Out</button>
+    </form>
+    {% else %}
+    <p>Checked out by {{game_user.first_name}} {{game_user.last_name}}</p>
+    <form action="/games/{{game.id}}/check_in" method="post">
+        <button type="submit">Check In</button>
+    </form>
+    {% endif %}
+    <a href="/games/{{game.id}}/edit">edit</a>
+    <div class="buttons">
+    <form class="delete-form" action="/games/{{game.id}}/delete" method="POST">
+        <button class="trash-button">
+            <i class="fa fa-trash-o fa-3x" style="color: red" aria-hidden="true"></i>
+        </button>
+    </form>
+    </div>
+{%endblock%}
