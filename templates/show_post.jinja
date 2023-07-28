@@ -1,11 +1,12 @@
 {% extends 'base.jinja' %}{% block content %}
 <div class="focused_container">
-    {# user's name #}
+    <h3>{{author}}</h3>
     <p>{{post.content}}</p>
     <hr/>
     {# likes CALL THEM APPROVALS HAHA #}
     {% for comment in comments %}
-        <p>{{comment.content}}</p>
+        <h5>{{comment[1]}}</h5>
+        <p>{{comment[0].content}}</p>
         <br/>
     {% endfor %}
     <a href="/{{user_id}}/{{post.id}}/new_comment">comment</a>

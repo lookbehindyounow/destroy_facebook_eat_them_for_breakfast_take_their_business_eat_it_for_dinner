@@ -2,11 +2,12 @@
 <section class="feed">
   {% for post in posts %}
   <div class="post">
+    <h4 class="post__body name">{{post[1]}}</h4>
     <p class="post__body content"><a class="post--link" href="/{{user_id}}/{{post[0].id}}">{{post[0].content}}</a></p>
     {# likes #}
-    {% if post[1]!=0 %}
+    {% if post[2]!=0 %}
       <br/>
-      <p class="post__body comment_count"><a class="post--link" href="{{user_id}}/{{post[0].id}}">{{post[1]}} comment{% if post[1]!=1 %}s{% endif %}</a></p>
+      <p class="post__body comment_count"><a class="post--link" href="{{user_id}}/{{post[0].id}}">{{post[2]}} comment{% if post[2]!=1 %}s{% endif %}</a></p>
     {% endif %}
   </div>
   <br/>

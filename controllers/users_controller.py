@@ -11,7 +11,7 @@ def login_page():
 
 @users_blueprint.route("/login",methods=["POST"])
 def login():
-    if request.form["radio"]=="new":
+    if request.form["new_or_old"]=="new":
         user=User(name=request.form["name"],password=request.form["password"])
         db.session.add(user)
         db.session.commit()
