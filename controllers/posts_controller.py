@@ -16,3 +16,14 @@ def show_post(id):
     post=Post.query.get(id)
     comments=post.get_comments()
     return render_template("show_post.jinja",post=post,comments=comments)
+
+@posts_blueprint.route("/new_post")
+def post_form():
+    return render_template("new_post.jinja")
+
+@posts_blueprint.route("/",methods=["POST"])
+def post_post():
+    post=Post(content=request.form["content"])
+    db.session.add(post)
+    db.session.commit()
+    return redirect("/")
