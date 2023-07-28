@@ -1,9 +1,10 @@
 {% extends "base.jinja" %}{% block content %}{% for post in posts %}
 <div class="post">
   <div class="post__content">
-    <p>{{post.content}}</p>
+    <p>{{post[0].content}}</p>
   </div>
-  {# likes, comments etc #}
+  {# likes #}
+  <p>{% if post[1]!=0 %}{{post[1]}} comment{% if post[1]!=1 %}s{% endif %}{% endif %}</p>
   <br/>
 </div>
 {% endfor %}{% endblock %}

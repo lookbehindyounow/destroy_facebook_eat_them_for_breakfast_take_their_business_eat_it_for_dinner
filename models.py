@@ -14,6 +14,16 @@ class Post(db.Model):
     
     def __repr__(self):
         return f"<Post {self.id}: {self.content[:30]}>"
+    
+    def get_comments(self):
+        all_comments=Comment.query.all()
+        comments=[comment for comment in all_comments if comment.post_id==self.id] # inefficient, find sql solution (non-working ideas below)
+        # self.comment_count=Comment.query.join(Post).filter(self.id==Comment.post_id)
+        # self.comment_count=db.select([comments.columns.id, comments.columns.post_id, comments.columns.content]).where(comments.columns.id==self.id)
+        return comments
+    
+    def count_comments(self):
+        return len(self.get_comments())
 
 class Comment(db.Model):
     __tablename__="comments"

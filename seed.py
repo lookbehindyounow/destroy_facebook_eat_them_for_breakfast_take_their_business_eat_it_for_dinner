@@ -6,8 +6,8 @@ from flask.cli import with_appcontext
 @click.command(name='seed')
 @with_appcontext
 def seed():
-    Post.query.delete()
     Comment.query.delete()
+    Post.query.delete()
     
     posts=[Post(content="come on football yass 3 nil"),
            Post(content="nobody dm goin thru it"),
@@ -18,9 +18,11 @@ def seed():
     
     posts=Post.query.all()
     footy_id=[post.id for post in posts if post.content[0]=="c"][0]
+    nodm_id=[post.id for post in posts if post.content[0]=="n"][0]
     
     comments=[Comment(post_id=footy_id,content="boo we should have won your team sucks"),
-              Comment(post_id=footy_id,content="come on you boys in green")
+              Comment(post_id=footy_id,content="come on you boys in green"),
+              Comment(post_id=nodm_id,content="dm me hun x")
     ]
     [db.session.add(comment) for comment in comments]
     db.session.commit()
