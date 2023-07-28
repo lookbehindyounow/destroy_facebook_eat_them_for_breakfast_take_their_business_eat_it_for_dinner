@@ -1,28 +1,9 @@
-{% extends "base.jinja" %} {% block content %} {% for game in games %}
-<div class="game">
-  <div class="game__content">
-    <div class="game__title">
-      <a href="/games/{{game.id}}">{{game.title}}</a>
-    </div>
-    <div class="game__genre">
-      <p>{{game.genre}}</p>
-    </div>
-    <div class="game__age_rating">
-      <p>
-      {% if game.age_rating==0 %}
-        U
-      {% else %}
-        {{game.age_rating}}
-      {% endif %}
-      </p>
-    </div>
+{% extends "base.jinja" %}{% block content %}{% for post in posts %}
+<div class="post">
+  <div class="post__content">
+    <p>{{post.content}}</p>
   </div>
-  <hr />
-
-  {% if game.user_id==None %}
-  <i class="fa fa-check fa-2x" style="color: green" aria-hidden="true"></i>
-  {% else %}
-  <i class="fa fa-times fa-2x" aria-hidden="true"></i>
-  {% endif %}
+  {# likes, comments etc #}
+  <br/>
 </div>
-{% endfor %} {% endblock %}
+{% endfor %}{% endblock %}

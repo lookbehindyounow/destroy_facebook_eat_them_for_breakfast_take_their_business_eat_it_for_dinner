@@ -1,7 +1,3 @@
-INSERT INTO users (first_name, last_name, dob) VALUES ('kev','bloke',TO_DATE('2/4/1995', 'DD/MM/YYYY'));
-INSERT INTO users (first_name, last_name, dob) VALUES ('wee','timmy',TO_DATE('2/9/2015', 'DD/MM/YYYY'));
-INSERT INTO users (first_name, last_name, dob) VALUES ('kenny','the goth',TO_DATE('2/4/2007', 'DD/MM/YYYY'));
-
-INSERT INTO games (title, genre, description, age_rating) VALUES ('cod','fishing','fish lots - fish hard',12);
-INSERT INTO games (title, genre, description, age_rating) VALUES ('cod','shooter','shoot lots - shoot hard',18);
-INSERT INTO games (title, genre, description, age_rating) VALUES ('gtav','open world','car jack lots - car jack hard',18);
+INSERT INTO posts (content) VALUES ('come on football yass 3 nil');
+INSERT INTO posts (content) VALUES ('nobody dm goin thru it');
+INSERT INTO posts (content) VALUES ('if you do not share this post your mother will die in her sleep tonight there used to be a little girl who was scared of the dark she did not retweet this message & then later that night in her room there was a presence at the end of her bed she was never heard from again I do not give personcatalog permission to use my data or my photos COPY & PASTE THI S MESSAGE IT LEGAL BONDAGE CONTRACT IT WORKS NO REALLY');
