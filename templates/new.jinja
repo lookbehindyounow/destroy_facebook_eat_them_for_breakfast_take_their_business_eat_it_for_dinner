@@ -1,4 +1,5 @@
 {% extends 'base.jinja' %}{% block content %}
+<div class="focused_container">
     {% if post is not none %}
         {# user's name #}
         <p>{{post.content}}</p>
@@ -18,4 +19,5 @@
         <input type="text" name="content" id="content" required autofocus/>
         <button type="submit">Post</button>
     </form>
+</div>
 {% endblock content %}

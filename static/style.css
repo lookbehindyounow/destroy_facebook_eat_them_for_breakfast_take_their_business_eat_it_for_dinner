@@ -1,14 +1,54 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* MAKE NAV BAR STAY AT TOP OF PAGE WHEN SCROLLING */
+
 body {
   font-family: "Helvetica", arial, sans-serif;
   font-size: 16px;
   background: rgb(252, 254, 255);
 }
+  
+input,
+select,
+button {
+  font-size: 100%;
+  width: 100%;
+  padding: 10px;
+  margin: 10px;
+  box-sizing: border-box;
+}
 
 .container {
   display: flex;
-  flex-direction: column;
-  width: 500px;
+  justify-content: center;
+  gap: 15px;
+  max-width: 90%;
+  min-width: 200px;
+  padding: 0 20px;
   margin: 0 auto;
+}
+
+.feed {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.something_else_not_sure_yet {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  width: calc(40% - 15px);
+  border: solid;
+}
+
+.focused_container {
+  margin: 10px 0;
 }
 
 .post {
@@ -18,6 +58,10 @@ body {
   border-radius: 10px;
   background-color: #e4fff6;
   padding: 10px;
+}
+
+.post__body {
+  margin: 0; /* automatic margins here for some reason, this removes them */
 }
 
 .post--link {

@@ -1,4 +1,5 @@
 {% extends 'base.jinja' %}{% block content %}
+<div class="focused_container">
     {# user's name #}
     <p>{{post.content}}</p>
     <hr/>
@@ -8,4 +9,5 @@
         <br/>
     {% endfor %}
     <a href="/{{post.id}}/new_comment">comment</a>
+</div>
 {%endblock%}
