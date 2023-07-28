@@ -17,4 +17,6 @@ from seed import seed
 app.cli.add_command(seed)
 
 from controllers.posts_controller import posts_blueprint
+from controllers.users_controller import users_blueprint
 app.register_blueprint(posts_blueprint)
+app.register_blueprint(users_blueprint)

@@ -10,7 +10,7 @@
             <br/>
         {% endfor %}
     {% endif %}
-    <form action="/{% if post is not none %}{{post.id}}{% endif %}" method="post">
+    <form action="/{{user_id}}/{% if post is not none %}{{post.id}}{% endif %}" method="post">
         {% if post==none %}
             <label for="content">you have to tell them they need to know</label>
         {% else %}
