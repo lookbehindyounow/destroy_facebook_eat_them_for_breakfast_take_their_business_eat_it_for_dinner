@@ -16,9 +16,11 @@
     <div class="post__right">
       <p>{{post.when}}</p>
     {% if user_id==post.user_id %}
-      <a href="{{user_id}}/{{post.id}}/edit_post_form">edit</a>
-      <br/>
-      <a href="{{user_id}}/{{post.id}}/delete_post">delete</a>
+      <div class="alter_buttons">
+        <a class="alter__edit" href="/{{user_id}}/{{post.id}}/edit_post_form">edit</a>
+        <br/>
+        <a class="alter__delete" href="/{{user_id}}/{{post.id}}/delete_post">X</a>
+      </div>
     {% endif %}
     </div>
   </div>

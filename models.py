@@ -16,6 +16,12 @@ class User(db.Model):
         return f"<User {self.id}: {self.name}>"
 
 class PostOrComment():
+    id=db.Column(db.Integer,primary_key=True) # look into that uuid(?) thing jack was talking about
+    user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
+    time=db.Column(db.DateTime)
+    
+    content=db.Column(db.Text())
+    
     def set_name(self):
         self.name=User.query.get(self.user_id).name
     
@@ -35,11 +41,6 @@ class PostOrComment():
 
 class Post(PostOrComment,db.Model):
     __tablename__="posts"
-    id=db.Column(db.Integer,primary_key=True) # look into that uuid(?) thing jack was talking about
-    user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
-    time=db.Column(db.DateTime)
-    
-    content=db.Column(db.Text())
     
     comments=db.relationship("Comment",backref="post")
     
@@ -52,6 +53,7 @@ class Post(PostOrComment,db.Model):
         for comment in all_comments:
             if comment.post_id==self.id:
                 comment.set_name()
+                comment.find_time()
                 comments.append(comment)
         # self.comment_count=Comment.query.join(Post).filter(self.id==Comment.post_id)
         # self.comment_count=db.select([comments.columns.id, comments.columns.post_id, comments.columns.content]).where(comments.columns.id==self.id)
@@ -62,11 +64,6 @@ class Post(PostOrComment,db.Model):
 
 class Comment(PostOrComment,db.Model):
     __tablename__="comments"
-    id=db.Column(db.Integer,primary_key=True) # look into that uuid(?) thing jack was talking about
-    user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
-    time=db.Column(db.DateTime)
-    
-    content=db.Column(db.Text())
     
     post_id=db.Column(db.Integer,db.ForeignKey("posts.id"))
     

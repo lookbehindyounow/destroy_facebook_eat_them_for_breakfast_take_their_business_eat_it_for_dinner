@@ -11,9 +11,7 @@ body {
   background: rgb(252, 254, 255);
 }
   
-input,
-select,
-button {
+input, select, button {
   font-size: 100%;
   width: 100%;
   padding: 10px;
@@ -48,22 +46,72 @@ button {
 }
 
 .focused_container {
+  display: flex;
+  flex-direction: column;
   margin: 10px 0;
+  max-width: 900px;
+  align-items: left;
+  gap: 10px;
 }
 
-.post {
+.post , .comment {
   display: flex;
   justify-content: space-between;
   border: solid;
-  border-radius: 10px;
+  border-radius: 15px;
   background-color: #e4fff6;
   padding: 10px;
 }
 
-.post__right {
+.post {
+  background-color: #e4fff6;
+}
+
+.comment {
+  border-width: 1px;
+  border-color: #00ffaa;
+  background-color: white;
+  max-width: 400px;
+  gap: 20px
+}
+
+.comment__right , .post__right {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-width: fit-content;
+  gap: 5px
+}
+
+.alter_buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.alter__edit , .comment_button {
+  color: #000764;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 0 9px 0 5px;
+  border: dashed;
+  border-color: #ffb700;
+  background-color: #ffd56a;
+  font-style: italic;
+}
+
+.alter__delete {
+  color: #ff0000;
+  text-decoration: none;
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight: bolder;
+  margin-top: 2px;
+}
+
+.comment_button {
+  border: solid;
+  border-color: #000764;
+  background-color: #edefff;
+  max-width: fit-content;
 }
 
 .post__body {
@@ -75,25 +123,32 @@ button {
   color: black;
 }
 
+.comment_count {
+  color: #000764;
+  font-style: italic;
+}
+
 .menu {
   display: flex;
-  padding: 10px;
-  background-color: grey;
+  padding: 10px 10px 10px 0;
+  background-color: #1d248f;
   color: white;
 }
 
 .menu li a {
   text-decoration: none;
-}
-
-.menu li a:visited {
   color: white;
 }
 
 .menu li {
-  padding-right: 10px;
+  padding: 0 30px;
+  border-left: solid;
   list-style: none;
-  color: white;
+  border-color: grey;
   font-family: "Helvetica", arial, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
+}
+
+.menu li:first-of-type {
+  border: none;
 }
