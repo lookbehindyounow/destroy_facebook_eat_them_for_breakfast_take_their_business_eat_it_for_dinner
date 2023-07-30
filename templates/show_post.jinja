@@ -1,32 +1,32 @@
 {% extends 'base.jinja' %}{% block content %}
 <div class="focused_container">
     <div class="post__left">
-        <h3>{{author}}</h3>
+        <h3>{{post.name}}</h3>
         <p>{{post.content}}</p>
     </div>
     <div class="post__right">
     {% if user_id==post.user_id %}
-        <a href="{{user_id}}/{{post.id}}/edit_post_form">edit</a>
+        <a href="/{{user_id}}/{{post.id}}/edit_post_form">edit</a>
         <br/>
-        <a href="{{user_id}}/{{post.id}}/delete_post">delete</a>
+        <a href="/{{user_id}}/{{post.id}}/delete_post">delete</a>
     {% endif %}
     </div>
     <hr/>
     {# likes CALL THEM APPROVALS HAHA #}
     {% for comment in comments %}
         <div class="comment__left">
-            <h5>{{comment[1]}}</h5>
-            <p>{{comment[0].content}}</p>
+            <h5>{{comment.name}}</h5>
+            <p>{{comment.content}}</p>
             <br/>
         </div>
         <div class="comment__right">
-        {% if user_id==comment[0].user_id %}
+        {% if user_id==comment.user_id %}
             {% if role=="edit_comment" %}
                 {% block edit_comment %}{% endblock edit_comment %}
             {% else %}
-                <a href="/{{user_id}}/{{post.id}}/{{comment[0].id}}/edit_comment_form">edit</a>
+                <a href="/{{user_id}}/{{post.id}}/{{comment.id}}/edit_comment_form">edit</a>
                 <br/>
-                <a href="/{{user_id}}/{{post.id}}/{{comment[0].id}}/delete_comment">delete</a>
+                <a href="/{{user_id}}/{{post.id}}/{{comment.id}}/delete_comment">delete</a>
             {% endif %}
         {% endif %}
         </div>

@@ -1,7 +1,6 @@
 from flask import render_template, redirect, Blueprint, request
 from models import User, Post, Comment
 from app import db
-import datetime
 
 users_blueprint=Blueprint("users",__name__)
 
