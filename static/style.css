@@ -53,11 +53,17 @@ button {
 
 .post {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   border: solid;
   border-radius: 10px;
   background-color: #e4fff6;
   padding: 10px;
+}
+
+.post__right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .post__body {

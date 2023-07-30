@@ -1,24 +1,30 @@
-{% extends 'base.jinja' %}{% block content %}
-<div class="focused_container">
-    {% if post is not none %}
-        <h3>{{author}}</h3>
-        <p>{{post.content}}</p>
-        <hr/>
-        {# likes CALL THEM APPROVALS HAHA #}
-        {% for comment in comments %}
-            <h5>{{comment[1]}}</h5>
-            <p>{{comment[0].content}}</p>
-            <br/>
-        {% endfor %}
+{% if role=="Post" %}
+    {% extends "base.jinja" %}
+    {% set form_action = "" %}
+    {% set place_val="you have to tell them they need to know" %}
+{% elif role=="Update Post" %}
+    {% extends "base.jinja" %}
+    {% set form_action = "/" ~ post.id ~ "/edit_post" %}
+    {% set place_val=post.content %}
+{% elif role=="Comment" %}
+    {% extends "show_post.jinja" %}
+    {% set form_action = "/" ~ post.id %}
+    {% set place_val="they care so much they want to hear your thoughts on the matter no really they do" %}
+{% elif role=="Update Comment" %}
+    {% extends "show_post.jinja" %}
+    {% set form_action = "/" ~ post.id ~ "/" ~ comment.id  ~ "/edit_comment"%}
+    {% set place_val=comment.content %}
+{% endif %}
+
+{% block form %}
+<form action=/{{user_id}}{{form_action}} method="post">
+    <input type="text" name="content" id="content"
+    {% if role[0]=="U" %}
+        value="{{place_val}}"
+    {% else %}
+        placeholder="{{place_val}}"
     {% endif %}
-    <form action="/{{user_id}}{% if post is not none %}/{{post.id}}{% endif %}" method="post">
-        {% if post==none %}
-            <label for="content">you have to tell them they need to know</label>
-        {% else %}
-            <label for="content">they care so much they want to hear your thoughts on the matter no really they do</label>
-        {% endif %}
-        <input type="text" name="content" id="content" required autofocus/>
-        <button type="submit">Post</button>
-    </form>
-</div>
-{% endblock content %}
+    required autofocus/>
+    <button type="submit">{{role}}</button>
+</form>
+{% endblock form %}
