@@ -113,7 +113,7 @@ input, select, button {
   gap: 5px;
 }
 
-.alter__edit , .comment_button {
+.alter__edit , .comment_button , .delete_profile {
   color: #000764;
   text-decoration: none;
   border-radius: 10px;
@@ -137,6 +137,13 @@ input, select, button {
   border-color: #000764;
   background-color: #edefff;
   max-width: fit-content;
+}
+
+.delete_profile {
+  border: solid;
+  border-color: red;
+  background-color: #ffadad;
+  width: fit-content;
 }
 
 .post__body {

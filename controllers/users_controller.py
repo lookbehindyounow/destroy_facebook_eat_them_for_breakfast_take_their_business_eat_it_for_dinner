@@ -1,6 +1,7 @@
 from flask import render_template, redirect, Blueprint, request
-from models import User, Friend, Friendship, Post
+from models import User, Friend, Friendship, Post, Comment, Approval
 from app import db
+from controllers.posts_controller import delete_post, delete_comment
 
 users_blueprint=Blueprint("users",__name__)
 
@@ -64,3 +65,20 @@ def show_profile(user_id,profile_id):
     posts=[post for post in all_posts if post.user_id==profile_id]
     [post.set_variables() for post in posts]
     return render_template("feed.jinja",user_id=user_id,profile=profile,posts=posts,isprofile=True)
+
+@users_blueprint.route("/<int:user_id>/profile/delete")
+def delete_profile(user_id):
+    friendships=Friendship.query.all() # SQL ting
+    [db.session.delete(friendship) for friendship in friendships if friendship.user_id==user_id or friendship.friend_id==user_id]
+    friend=Friend.query.get(user_id)
+    db.session.delete(friend)
+    approvals=Approval.query.all()
+    [db.session.delete(approval) for approval in approvals if approval.user_id==user_id]
+    comments=Comment.query.all()
+    [delete_comment(user_id,None,comment.id) for comment in comments if comment.user_id==user_id]
+    posts=Post.query.all()
+    [delete_post(user_id,post.id) for post in posts if post.user_id==user_id]
+    user=User.query.get(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    return redirect("/")
