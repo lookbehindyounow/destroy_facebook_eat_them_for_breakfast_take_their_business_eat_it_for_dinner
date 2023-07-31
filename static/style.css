@@ -119,10 +119,21 @@ input, select, button {
   justify-content: space-between;
 }
 
-.post--link {
+.post--link , .content {
   text-decoration: none;
   color: black;
+}
+
+.post--link {
   font-style: italic;
+}
+
+.interactions {
+  display: flex;
+}
+
+.approvals {
+  width: 90px;
 }
 
 .mine {
