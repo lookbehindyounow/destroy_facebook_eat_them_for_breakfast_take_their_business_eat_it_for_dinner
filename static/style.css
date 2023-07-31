@@ -19,6 +19,10 @@ input, select, button {
   box-sizing: border-box;
 }
 
+.input_box_restrictor {
+  margin-right: 20px;
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -49,6 +53,7 @@ input, select, button {
   display: flex;
   flex-direction: column;
   margin: 10px 0;
+  min-width: 250px;
   max-width: 900px;
   align-items: left;
   gap: 10px;

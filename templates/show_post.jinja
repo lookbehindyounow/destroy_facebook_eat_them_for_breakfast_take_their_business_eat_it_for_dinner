@@ -11,7 +11,8 @@
                     {% set ns.mine = true %}
                 {% endif %}
             {% endfor %}
-            <a class="post--link{% if ns.mine %} mine{% endif %}" href="/{{user_id}}/{{post.id}}/approve/0">{{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}</a>
+            <a class="post--link{% if ns.mine %} mine{% endif %}" href="/{{user_id}}/{{post.id}}/approve/0">
+            {{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}</a>
         </div>
         <div class="post__right">
             <p>{{post.when}}</p>
@@ -37,7 +38,8 @@
                         {% set ns.mine = true %}
                     {% endif %}
                 {% endfor %}
-                <a class="post--link{% if ns.mine %} mine{% endif %}" href="/{{user_id}}/{{post.id}}/{{comment.id}}/approve">{{comment.approvals|length}} approval{% if comment.approvals|length!=1 %}s{% endif %}</a>
+                <a class="post--link{% if ns.mine %} mine{% endif %}" href="/{{user_id}}/{{post.id}}/{{comment.id}}/approve">
+                {{comment.approvals|length}} approval{% if comment.approvals|length!=1 %}s{% endif %}</a>
             </div>
             <div class="comment__right">
                 <p>{{comment.when}}</p>
@@ -55,8 +57,10 @@
             </div>
         </div>
     {% endfor %}
+    <div class="input_box_restrictor">
     {% block form %}
         <a class="comment_button" href="/{{user_id}}/{{post.id}}/new_comment_form">comment</a>
     {% endblock form %}
+    </div>
 </div>
 {%endblock%}
