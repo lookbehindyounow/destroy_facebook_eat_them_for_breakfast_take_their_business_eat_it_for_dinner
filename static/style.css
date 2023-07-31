@@ -39,11 +39,25 @@ input, select, button {
   margin: 0 auto;
 }
 
+.profile_link {
+  color: black;
+  text-decoration: none;
+}
+
 .feed {
   margin: 10px 0;
   display: flex;
   flex-direction: column;
   width: 60%;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+.friends_list {
+  margin-left: 10px;
 }
 
 .something_else_not_sure_yet {
@@ -160,10 +174,13 @@ input, select, button {
   display: flex;
 }
 
+li {
+  list-style: none;
+}
+
 .menu li {
   padding: 0 30px;
   border-left: solid;
-  list-style: none;
   border-color: grey;
   font-family: "Helvetica", arial, sans-serif;
   font-size: 16px;

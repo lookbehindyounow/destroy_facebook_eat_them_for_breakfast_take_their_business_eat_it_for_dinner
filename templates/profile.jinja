@@ -1,0 +1,15 @@
+{% extends 'base.jinja' %}{% block content %}
+    <aside class="details">
+        <h3>{{profile.name}}</h3>
+        <p>password: {{profile.password}}</p>
+        <br/>
+        <p>Friends:</p>
+        <ul class="friends_list">
+        {% for friend in profile.friends_list %}
+            <li>{{friend.name}}</li>
+        {% endfor %}
+        </ul>
+    </aside>
+    <hr/>
+    {% block feed %}{% endblock feed %}
+{% endblock content %}

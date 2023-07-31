@@ -37,7 +37,7 @@ class Friendship(db.Model):
     friend_id=db.Column(db.Integer,db.ForeignKey("friends.id"))
     
     def __repr__(self):
-        return f"<Friendship {self.id} between Users {self.user1_id} & {self.user2_id}>"
+        return f"<Friendship {self.id} between Users {self.user_id} & {self.friend_id}>"
 
 class PostOrComment():
     id=db.Column(db.Integer,primary_key=True) # look into that uuid(?) thing jack was talking about

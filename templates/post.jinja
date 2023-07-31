@@ -2,7 +2,7 @@
 <div class="focused_container post">
     <div class="post__body">
         <div class="post__left">
-            <h3>{{post.name}}</h3>
+            <a class="profile_link" href="/{{user_id}}/profile/{{post.user_id}}"><h3>{{post.name}}</h3></a>
             <p>{{post.content}}</p>
             <br/>
             {% set ns=namespace(mine=false) %}
@@ -29,7 +29,7 @@
     {% for comment in post.comments %}
         <div class="comment">
             <div class="comment__left">
-                <h5>{{comment.name}}</h5>
+                <a class="profile_link" href="/{{user_id}}/profile/{{comment.user_id}}"><h5>{{comment.name}}</h5></a>
                 <p>{{comment.content}}</p>
                 <br/>
                 {% set ns=namespace(mine=false) %}

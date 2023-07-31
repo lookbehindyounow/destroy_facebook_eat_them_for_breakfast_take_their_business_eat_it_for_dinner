@@ -7,11 +7,11 @@
     {% set form_action = "/" ~ post.id ~ "/edit_post" %}
     {% set place_val=post.content %}
 {% elif role=="Comment" %}
-    {% extends "show_post.jinja" %}
+    {% extends "post.jinja" %}
     {% set form_action = "/" ~ post.id %}
     {% set place_val="they care so much they want to hear your thoughts on the matter no really they do" %}
 {% elif role=="Update Comment" %}
-    {% extends "show_post.jinja" %}
+    {% extends "post.jinja" %}
     {% set form_action = "/" ~ post.id ~ "/" ~ comment.id  ~ "/edit_comment"%}
     {% set place_val=comment.content %}
 {% endif %}

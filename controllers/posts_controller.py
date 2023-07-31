@@ -10,13 +10,13 @@ def show_feed(user_id):
     posts=Post.query.all() # sort by time of last engagement (maybe just reverse the list, could edit a post's table entry & edit it right back to what it was each time a comment is made to 'bump' it down to the bottom of the posts table in the db)
     [(post.set_variables(),post.get_comments()) for post in posts]
     posts.sort(key=lambda post: post.time, reverse=True)
-    return render_template("index.jinja",user_id=user_id,posts=posts)
+    return render_template("feed.jinja",user_id=user_id,posts=posts,isprofile=False)
 
 @posts_blueprint.route("/<int:user_id>/<int:post_id>")
 def show_post(user_id,post_id):
     post=Post.query.get(post_id)
     post.set_variables()
-    return render_template("show_post.jinja",user_id=user_id,post=post)
+    return render_template("post.jinja",user_id=user_id,post=post)
 
 @posts_blueprint.route("/<int:user_id>/new_post_form")
 def new_post_form(user_id):
@@ -58,8 +58,8 @@ def edit_post(user_id,post_id):
 @posts_blueprint.route("/<int:user_id>/<int:post_id>/delete_post")
 def delete_post(user_id,post_id):
     post=Post.query.get(post_id)
-    post.get_comments()
-    [comment.set_variables() for comment in post.comments]
+    post.set_variables()
+    [db.session.delete(approval) for approval in post.approvals]
     [[db.session.delete(approval) for approval in comment.approvals] for comment in post.comments]
     [db.session.delete(comment) for comment in post.comments]
     db.session.delete(post)
