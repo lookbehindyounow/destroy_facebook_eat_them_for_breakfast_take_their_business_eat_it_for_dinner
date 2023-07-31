@@ -46,9 +46,9 @@
                     {% block edit_comment %}{% endblock edit_comment %}
                 {% else %}
                     <div class="alter_buttons">
-                        <a class="alter__edit" href="/{{user_id}}/{{post.id}}/edit_post_form">edit</a>
+                        <a class="alter__edit" href="/{{user_id}}/{{post.id}}/{{comment.id}}/edit_comment_form">edit</a>
                         <br/>
-                        <a class="alter__delete" href="/{{user_id}}/{{post.id}}/delete_post">X</a>
+                        <a class="alter__delete" href="/{{user_id}}/{{post.id}}/{{comment.id}}/delete_comment">X</a>
                     </div>
                 {% endif %}
             {% endif %}
