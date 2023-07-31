@@ -123,6 +123,10 @@ input, select, button {
   color: black;
 }
 
+.mine {
+  color: #2631c4;
+}
+
 .comment_count {
   color: #000764;
   font-style: italic;

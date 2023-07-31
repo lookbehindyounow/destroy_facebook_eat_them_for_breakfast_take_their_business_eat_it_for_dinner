@@ -11,7 +11,13 @@
         {% if post.comment_count!=0 %}
           <a class="post--link" href="/{{user_id}}/{{post.id}}">{{post.comment_count}} comment{% if post.comment_count!=1 %}s{% endif %}</a>
         {% endif %}
-        <a class="post--link" href="/{{user_id}}/{{post.id}}/approve/1">{{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}</a>
+        {% set ns=namespace(mine=false) %}
+        {% for approval in post.approvals %}
+          {% if approval.user_id==user_id %}
+            {% set ns.mine=true %}
+          {% endif %}
+        {% endfor %}
+        <a class="post--link{% if ns.mine %} mine{% endif %}" href="/{{user_id}}/{{post.id}}/approve/1">{{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}</a>
       </p>
     </div>
     <div class="post__right">

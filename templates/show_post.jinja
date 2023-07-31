@@ -4,7 +4,13 @@
         <h3>{{post.name}}</h3>
         <p>{{post.content}}</p>
         <br/>
-        <a class="post--link" href="/{{user_id}}/{{post.id}}/approve/0">{{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}</a>
+        {% set ns=namespace(mine=false) %}
+        {% for approval in post.approvals %}
+            {% if approval.user_id==user_id %}
+                {% set ns.mine = true %}
+            {% endif %}
+        {% endfor %}
+        <a class="post--link{% if ns.mine %} mine{% endif %}" href="/{{user_id}}/{{post.id}}/approve/0">{{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}</a>
     </div>
     <div class="post__right">
         <p>{{post.when}}</p>
@@ -23,7 +29,13 @@
                 <h5>{{comment.name}}</h5>
                 <p>{{comment.content}}</p>
                 <br/>
-                <a class="post--link" href="/{{user_id}}/{{post.id}}/{{comment.id}}/approve">{{comment.approvals|length}} approval{% if comment.approvals|length!=1 %}s{% endif %}</a>
+                {% set ns=namespace(mine=false) %}
+                {% for approval in comment.approvals %}
+                    {% if approval.user_id==user_id %}
+                        {% set ns.mine = true %}
+                    {% endif %}
+                {% endfor %}
+                <a class="post--link{% if ns.mine %} mine{% endif %}" href="/{{user_id}}/{{post.id}}/{{comment.id}}/approve">{{comment.approvals|length}} approval{% if comment.approvals|length!=1 %}s{% endif %}</a>
             </div>
             <div class="comment__right">
                 <p>{{comment.when}}</p>
