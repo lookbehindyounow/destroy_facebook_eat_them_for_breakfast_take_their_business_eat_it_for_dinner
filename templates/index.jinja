@@ -17,8 +17,8 @@
           {% endfor %}
           <a class="post--link{% if ns.mine %} mine{% endif %}" href="/{{user_id}}/{{post.id}}/approve/1">{{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}</a>
         </span>
-        {% if post.comment_count!=0 %}
-          <a class="post--link" href="/{{user_id}}/{{post.id}}">{{post.comment_count}} comment{% if post.comment_count!=1 %}s{% endif %}</a>
+        {% if post.comments|length!=0 %}
+          <a class="post--link" href="/{{user_id}}/{{post.id}}">{{post.comments|length}} comment{% if post.comments|length!=1 %}s{% endif %}</a>
         {% endif %}
       </p>
     </div>

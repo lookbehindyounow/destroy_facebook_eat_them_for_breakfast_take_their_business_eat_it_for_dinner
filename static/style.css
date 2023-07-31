@@ -10,7 +10,13 @@ body {
   font-size: 16px;
   background: rgb(252, 254, 255);
 }
-  
+
+img {
+  margin-left: 25px;
+  width: 415px;
+  height: 40px;
+}
+
 input, select, button {
   font-size: 100%;
   width: 100%;
@@ -146,15 +152,12 @@ input, select, button {
 }
 
 .menu {
-  display: flex;
   padding: 10px 10px 10px 0;
   background-color: #1d248f;
-  color: white;
 }
 
-.menu li a {
-  text-decoration: none;
-  color: white;
+.menu ul {
+  display: flex;
 }
 
 .menu li {
@@ -164,6 +167,11 @@ input, select, button {
   border-color: grey;
   font-family: "Helvetica", arial, sans-serif;
   font-size: 16px;
+}
+
+.menu a {
+  text-decoration: none;
+  color: white;
 }
 
 .menu li:first-of-type {

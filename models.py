@@ -68,8 +68,8 @@ class PostOrComment():
         else:
             self.approvals=[approval for approval in all_approvals if not approval.ispost and approval.comment_id==self.id]
         
-        return self
-
+        if type(self)==Post:
+            self.get_comments()
 
 class Post(PostOrComment,db.Model):
     __tablename__="posts"
@@ -81,13 +81,11 @@ class Post(PostOrComment,db.Model):
         return f"<Post {self.id} by User {self.user_id}: {self.content[:30]}>"
     
     def get_comments(self):
-        all_comments=Comment.query.all() # inefficient, find sql solution (non-working ideas below)
-        print("aaaaaaaaaaaaaaaaa",all_comments)
-        comments=[comment.set_variables() for comment in all_comments if comment.post_id==self.id]
-        # self.comment_count=Comment.query.join(Post).filter(self.id==Comment.post_id)
-        # self.comment_count=db.select([comments.columns.id, comments.columns.post_id, comments.columns.content]).where(comments.columns.id==self.id)
-        self.comment_count=len(comments)
-        return comments
+        all_comments=Comment.query.all()
+        self.comments=[comment for comment in all_comments if comment.post_id==self.id]
+        # self.comments=Comment.query.filter_by(post_id=self.id)
+        [comment.set_variables() for comment in self.comments]
+        self.comments.sort(key=lambda comment: comment.time)
 
 class Comment(PostOrComment,db.Model):
     __tablename__="comments"
