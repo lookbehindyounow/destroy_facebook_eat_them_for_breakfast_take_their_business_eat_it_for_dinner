@@ -115,21 +115,18 @@ input, select, button {
 }
 
 .post__body {
-  margin: 0; /* automatic margins here for some reason, this removes them */
+  display: flex;
+  justify-content: space-between;
 }
 
 .post--link {
   text-decoration: none;
   color: black;
+  font-style: italic;
 }
 
 .mine {
   color: #2631c4;
-}
-
-.comment_count {
-  color: #000764;
-  font-style: italic;
 }
 
 .menu {

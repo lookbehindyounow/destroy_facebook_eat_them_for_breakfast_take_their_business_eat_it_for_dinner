@@ -1,26 +1,28 @@
 {% extends 'base.jinja' %}{% block content %}
 <div class="focused_container post">
-    <div class="post__left">
-        <h3>{{post.name}}</h3>
-        <p>{{post.content}}</p>
-        <br/>
-        {% set ns=namespace(mine=false) %}
-        {% for approval in post.approvals %}
-            {% if approval.user_id==user_id %}
-                {% set ns.mine = true %}
-            {% endif %}
-        {% endfor %}
-        <a class="post--link{% if ns.mine %} mine{% endif %}" href="/{{user_id}}/{{post.id}}/approve/0">{{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}</a>
-    </div>
-    <div class="post__right">
-        <p>{{post.when}}</p>
-    {% if user_id==post.user_id %}
-        <div class="alter_buttons">
-            <a class="alter__edit" href="/{{user_id}}/{{post.id}}/edit_post_form">edit</a>
+    <div class="post__body">
+        <div class="post__left">
+            <h3>{{post.name}}</h3>
+            <p>{{post.content}}</p>
             <br/>
-            <a class="alter__delete" href="/{{user_id}}/{{post.id}}/delete_post">X</a>
+            {% set ns=namespace(mine=false) %}
+            {% for approval in post.approvals %}
+                {% if approval.user_id==user_id %}
+                    {% set ns.mine = true %}
+                {% endif %}
+            {% endfor %}
+            <a class="post--link{% if ns.mine %} mine{% endif %}" href="/{{user_id}}/{{post.id}}/approve/0">{{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}</a>
         </div>
-    {% endif %}
+        <div class="post__right">
+            <p>{{post.when}}</p>
+        {% if user_id==post.user_id %}
+            <div class="alter_buttons">
+                <a class="alter__edit" href="/{{user_id}}/{{post.id}}/edit_post_form">edit</a>
+                <br/>
+                <a class="alter__delete" href="/{{user_id}}/{{post.id}}/delete_post">X</a>
+            </div>
+        {% endif %}
+        </div>
     </div>
     <hr/>
     {% for comment in comments %}

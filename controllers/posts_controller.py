@@ -104,10 +104,10 @@ def approve_post(user_id,post_id,fromfeed):
     else:
         db.session.delete(existing[0])
     db.session.commit()
-    if bool(fromfeed):
+    if bool(int(fromfeed)):
         return redirect(f"/{user_id}")
     else:
-        return redirect(f"{user_id}/{post_id}")
+        return redirect(f"/{user_id}/{post_id}")
 
 @posts_blueprint.route("/<int:user_id>/<int:post_id>/<int:comment_id>/approve")
 def approve_comment(user_id,post_id,comment_id):

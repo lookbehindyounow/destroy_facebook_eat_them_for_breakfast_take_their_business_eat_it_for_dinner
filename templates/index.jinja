@@ -3,11 +3,11 @@
   {% for post in posts %}
   <div class="post">
     <div class="post__left">
-      <h4 class="post__body name">{{post.name}}</h4>
-      <p class="post__body content"><a class="post--link" href="/{{user_id}}/{{post.id}}">{{post.content}}</a></p>
+      <h4 class="name">{{post.name}}</h4>
+      <p class="content"><a class="post--link" href="/{{user_id}}/{{post.id}}">{{post.content}}</a></p>
       {# likes #}
       <br/>
-      <p class="post__body comment_count">
+      <p>
         {% if post.comment_count!=0 %}
           <a class="post--link" href="/{{user_id}}/{{post.id}}">{{post.comment_count}} comment{% if post.comment_count!=1 %}s{% endif %}</a>
         {% endif %}
