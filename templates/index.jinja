@@ -6,12 +6,13 @@
       <h4 class="post__body name">{{post.name}}</h4>
       <p class="post__body content"><a class="post--link" href="/{{user_id}}/{{post.id}}">{{post.content}}</a></p>
       {# likes #}
-      {% if post.comment_count!=0 %}
-        <br/>
-        <p class="post__body comment_count"><a class="post--link" href="{{user_id}}/{{post.id}}">
-          {{post.comment_count}} comment{% if post.comment_count!=1 %}s{% endif %}
-        </a></p>
-      {% endif %}
+      <br/>
+      <p class="post__body comment_count">
+        {% if post.comment_count!=0 %}
+          <a class="post--link" href="/{{user_id}}/{{post.id}}">{{post.comment_count}} comment{% if post.comment_count!=1 %}s{% endif %}</a>
+        {% endif %}
+        <a class="post--link" href="/{{user_id}}/{{post.id}}/approve/1">{{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}</a>
+      </p>
     </div>
     <div class="post__right">
       <p>{{post.when}}</p>

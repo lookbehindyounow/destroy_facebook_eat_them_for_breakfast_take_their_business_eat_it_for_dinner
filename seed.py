@@ -1,5 +1,5 @@
 from app import db
-from models import User, Post, Comment
+from models import User, Post, Comment, Approval
 import click
 from flask.cli import with_appcontext
 from datetime import datetime
@@ -7,6 +7,7 @@ from datetime import datetime
 @click.command(name='seed')
 @with_appcontext
 def seed():
+    Approval.query.delete()
     Comment.query.delete()
     Post.query.delete()
     User.query.delete()
@@ -33,10 +34,24 @@ def seed():
     posts=Post.query.all()
     footy_id=[post.id for post in posts if post.content[0]=="c"][0]
     nodm_id=[post.id for post in posts if post.content[0]=="n"][0]
+    chainmail_id=[post.id for post in posts if post.content[0]=="i"][0]
     
     comments=[Comment(user_id=dan_id,post_id=footy_id,time=datetime.now(),content="boo we should have won your team sucks"),
         Comment(user_id=shelly_id,post_id=footy_id,time=datetime.now(),content="come on you boys in green"),
         Comment(user_id=shelly_id,post_id=nodm_id,time=datetime.now(),content="dm me hun x")
     ]
     [db.session.add(comment) for comment in comments]
+    db.session.commit()
+    
+    comments=Comment.query.all()
+    chainmail_id=[post.id for post in posts if post.content[0]=="i"][0]
+    green_id=[comment.id for comment in comments if comment.content[0]=="c"][0]
+    boo_id=[comment.id for comment in comments if comment.content[0]=="b"][0]
+    
+    approvals=[Approval(user_id=shelly_id,ispost=True,post_id=footy_id),
+            Approval(user_id=dan_id,ispost=True,post_id=chainmail_id),
+            Approval(user_id=kev_id,ispost=False,comment_id=green_id),
+            Approval(user_id=dan_id,ispost=False,comment_id=boo_id)
+    ]
+    [db.session.add(approval) for approval in approvals]
     db.session.commit()
