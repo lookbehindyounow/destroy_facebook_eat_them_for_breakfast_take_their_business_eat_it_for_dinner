@@ -9,12 +9,35 @@ class User(db.Model):
     name=db.Column(db.String(64))
     password=db.Column(db.String(64))
     
+    friends=db.relationship("Friend",backref="user")
+    friendships=db.relationship("Friendship",backref="user")
     posts=db.relationship("Post",backref="user")
     comments=db.relationship("Comment",backref="user")
     approvals=db.relationship("Approval",backref="user")
     
     def __repr__(self):
         return f"<User {self.id}: {self.name}>"
+
+class Friend(db.Model):
+    __tablename__="friends"
+    
+    id=db.Column(db.Integer,db.ForeignKey("users.id"),primary_key=True)
+    
+    friendships=db.relationship("Friendship",backref="friend")
+    
+    def __repr__(self):
+        return f"<Friend {self.id} (same id as corresponding User)>"
+
+class Friendship(db.Model):
+    __tablename__="friendships"
+    
+    id=db.Column(db.Integer,primary_key=True)
+    
+    user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
+    friend_id=db.Column(db.Integer,db.ForeignKey("friends.id"))
+    
+    def __repr__(self):
+        return f"<Friendship {self.id} between Users {self.user1_id} & {self.user2_id}>"
 
 class PostOrComment():
     id=db.Column(db.Integer,primary_key=True) # look into that uuid(?) thing jack was talking about
@@ -59,6 +82,7 @@ class Post(PostOrComment,db.Model):
     
     def get_comments(self):
         all_comments=Comment.query.all() # inefficient, find sql solution (non-working ideas below)
+        print("aaaaaaaaaaaaaaaaa",all_comments)
         comments=[comment.set_variables() for comment in all_comments if comment.post_id==self.id]
         # self.comment_count=Comment.query.join(Post).filter(self.id==Comment.post_id)
         # self.comment_count=db.select([comments.columns.id, comments.columns.post_id, comments.columns.content]).where(comments.columns.id==self.id)
@@ -84,3 +108,11 @@ class Approval(db.Model):
     ispost=db.Column(db.Boolean)
     post_id=db.Column(db.Integer,db.ForeignKey("posts.id"))
     comment_id=db.Column(db.Integer,db.ForeignKey("comments.id"))
+    
+    def __repr__(self):
+        message=f"<Approval {self.id} by User {self.user_id} on >"
+        if self.ispost:
+            message=message+f"Post {self.post_id}"
+        else:
+            message=message+f"Comment {self.comment_id}"
+        return message

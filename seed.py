@@ -1,5 +1,5 @@
 from app import db
-from models import User, Post, Comment, Approval
+from models import User, Friend, Friendship, Post, Comment, Approval
 import click
 from flask.cli import with_appcontext
 from datetime import datetime
@@ -10,6 +10,8 @@ def seed():
     Approval.query.delete()
     Comment.query.delete()
     Post.query.delete()
+    Friendship.query.delete()
+    Friend.query.delete()
     User.query.delete()
     
     users=[User(name="kev",password="kev123"),
@@ -23,6 +25,19 @@ def seed():
     kev_id=[user.id for user in users if user.name=="kev"][0]
     dan_id=[user.id for user in users if user.name=="dan"][0]
     shelly_id=[user.id for user in users if user.name=="shelly"][0]
+    
+    friends=[Friend(id=user.id) for user in users]
+    [db.session.add(friend) for friend in friends]
+    db.session.commit()
+    
+    friendships=[Friendship(user_id=kev_id,friend_id=shelly_id),
+                Friendship(user_id=shelly_id,friend_id=kev_id),
+                
+                Friendship(user_id=shelly_id,friend_id=dan_id),
+                Friendship(user_id=dan_id,friend_id=shelly_id)
+    ]
+    [db.session.add(friendship) for friendship in friendships]
+    db.session.commit()
     
     posts=[Post(user_id=kev_id,time=datetime.now(),content="come on football yass 3 nil"),
         Post(user_id=dan_id,time=datetime.now(),content="nobody dm goin thru it"),
@@ -44,7 +59,6 @@ def seed():
     db.session.commit()
     
     comments=Comment.query.all()
-    chainmail_id=[post.id for post in posts if post.content[0]=="i"][0]
     green_id=[comment.id for comment in comments if comment.content[0]=="c"][0]
     boo_id=[comment.id for comment in comments if comment.content[0]=="b"][0]
     

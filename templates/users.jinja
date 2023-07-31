@@ -1,0 +1,12 @@
+{% extends 'base.jinja' %}
+{% block content %}
+<ul class="users">
+    {% for user in users %}
+        <li>{{user.name}} - <a href="/{{user_id}}/users/{{user.id}}">{% if user.id in my_friends %}
+            Remove friend
+        {% else %}
+            Add friend
+        {% endif %}</a></li>
+    {% endfor %}
+</ul>
+{% endblock content %}
