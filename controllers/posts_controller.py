@@ -13,6 +13,7 @@ def show_feed(user_id):
         post.set_variables()
         post.get_comments()
         posts.append(post)
+    posts.sort(key=lambda post: post.time, reverse=True)
     return render_template("index.jinja",user_id=user_id,posts=posts)
 
 @posts_blueprint.route("/<int:user_id>/<int:post_id>")
@@ -20,6 +21,7 @@ def show_post(user_id,post_id):
     post=Post.query.get(post_id)
     post.set_variables()
     comments=post.get_comments()
+    comments.sort(key=lambda comment: comment.time)
     return render_template("show_post.jinja",user_id=user_id,post=post,comments=comments)
 
 @posts_blueprint.route("/<int:user_id>/new_post_form")
@@ -38,6 +40,7 @@ def new_comment_form(user_id,post_id):
     post=Post.query.get(post_id)
     post.set_variables()
     comments=post.get_comments()
+    comments.sort(key=lambda comment: comment.time)
     return render_template("new.jinja",user_id=user_id,role="Comment",post=post,comments=comments)
 
 @posts_blueprint.route("/<int:user_id>/<int:post_id>",methods=["POST"])
@@ -50,7 +53,10 @@ def new_comment(user_id,post_id):
 @posts_blueprint.route("/<int:user_id>/<int:post_id>/edit_post_form")
 def edit_post_form(user_id,post_id):
     post=Post.query.get(post_id)
-    return render_template("new.jinja",user_id=user_id,role="Update Post",post=post)
+    post.set_variables()
+    comments=post.get_comments()
+    comments.sort(key=lambda comment: comment.time)
+    return render_template("new.jinja",user_id=user_id,role="Update Post",post=post,comments=comments)
 
 @posts_blueprint.route("/<int:user_id>/<int:post_id>/edit_post",methods=["POST"])
 def edit_post(user_id,post_id):
@@ -75,6 +81,7 @@ def edit_comment_form(user_id,post_id,comment_id):
     post=Post.query.get(post_id)
     post.set_variables()# move this up to above line?
     comments=post.get_comments()
+    comments.sort(key=lambda comment: comment.time)
     comment=Comment.query.get(comment_id)
     return render_template("new.jinja",user_id=user_id,role="Update Comment",post=post,comments=comments,comment=comment)
 
