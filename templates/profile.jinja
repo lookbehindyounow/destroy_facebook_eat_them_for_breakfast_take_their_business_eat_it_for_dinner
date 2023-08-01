@@ -6,7 +6,7 @@
         <p>Friends:</p>
         <ul class="friends_list">
         {% for friend in profile.friends_list %}
-            <li>{{friend.name}}</li>
+            <li><a class="profile_link" href="/{{user_id}}/profile/{{friend.id}}">{{friend.name}}</a></li>
         {% endfor %}
         </ul>
         {% if profile.id==user_id %}

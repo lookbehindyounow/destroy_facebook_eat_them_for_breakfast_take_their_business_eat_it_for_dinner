@@ -55,9 +55,11 @@ class PostOrComment():
                 if seconds_since<60:
                     self.when="just now"
                 else:
-                    self.when=str(seconds_since//60)+" min ago" # (s) calc?
+                    self.when=str(seconds_since//60)+" mins ago"
             else:
-                self.when=str(seconds_since//3600)+" hr ago"
+                self.when=str(seconds_since//3600)+" hrs ago"
+            if self.when[:2]=="1 ":
+                self.when=self.when[:-5]+self.when[-4:] # talk about s removal
         else:
             self.when=(str(self.time)[8:10]+"/"+str(self.time)[5:7]+"/"+str(self.time)[2:4]
                         +" - "+str(self.time)[11:13]+":"+str(self.time)[14:16])
