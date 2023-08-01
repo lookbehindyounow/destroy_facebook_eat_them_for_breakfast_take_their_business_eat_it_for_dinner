@@ -25,6 +25,13 @@
                 <label for="password">Password:</label>
                 <input type="text" name="password" id="password" required/>
                 <button type="submit">{% if new %}Sign up{% else %}Log in{% endif %}</button>
+                {% if login_message %}
+                    {% if new %}
+                        <p>this user already exists</p>
+                    {% else %}
+                        <p>incorrect username or password</p>
+                    {% endif %}
+                {% endif %}
             </form>
         </div>
     </body>
