@@ -67,6 +67,10 @@ class PostOrComment():
             self.get_comments() # talk about recursive stuff
         else:
             self.approvals=Approval.query.filter_by(ispost=False,comment_id=self.id).all()
+    
+    def edit(self,content):
+        self.content=content
+        db.session.commit()
 
 class Post(PostOrComment,db.Model):
     __tablename__="posts"

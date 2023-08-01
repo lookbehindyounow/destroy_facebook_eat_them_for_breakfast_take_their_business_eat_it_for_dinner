@@ -52,8 +52,7 @@ def edit_post_form(user_id,post_id):
 @posts_blueprint.route("/<int:user_id>/<int:post_id>/edit_post",methods=["POST"])
 def edit_post(user_id,post_id):
     post=Post.query.get(post_id)
-    post.content=request.form["content"]
-    db.session.commit()
+    post.edit(request.form["content"])
     return redirect(f"/{user_id}/{post_id}")
 
 @posts_blueprint.route("/<int:user_id>/<int:post_id>/delete_post")
@@ -78,8 +77,7 @@ def edit_comment_form(user_id,post_id,comment_id):
 @posts_blueprint.route("/<int:user_id>/<int:post_id>/<int:comment_id>/edit_comment",methods=["POST"])
 def edit_comment(user_id,post_id,comment_id):
     comment=Comment.query.get(comment_id)
-    comment.content=request.form["content"] # make a method for this & post edit
-    db.session.commit()
+    comment.edit(request.form["content"])
     return redirect(f"/{user_id}/{post_id}")
 
 @posts_blueprint.route("/<int:user_id>/<int:post_id>/<int:comment_id>/delete_comment")
