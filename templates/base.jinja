@@ -3,15 +3,13 @@
   <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/> {# what does this do? #}
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
     <title>PersonCatalog</title>
   </head>
   <body>
     <header>
       <nav class="menu">
-        <img src="static/logo.png" alt="Welcome to PersonCatalog">
-        {# WHY IMAGE NO WORK SOMETIMES #}
+        <img src="/static/logo.png" alt="Welcome to PersonCatalog">
         <ul>
           <li><a href="/{{user_id}}">Home</a></li>
           <li><a href="/{{user_id}}/new_post_form">New Post</a></li>
