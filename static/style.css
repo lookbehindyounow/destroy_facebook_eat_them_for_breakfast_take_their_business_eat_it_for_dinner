@@ -157,6 +157,18 @@ input, select, button {
   justify-content: space-between;
 }
 
+.post__top {
+  display: flex;
+}
+
+.name {
+  width: 150px;
+}
+
+.audience {
+  color: grey;
+}
+
 .post--link , .content {
   text-decoration: none;
   color: black;

@@ -2,7 +2,15 @@
 <div class="focused_container post">
     <div class="post__body">
         <div class="post__left">
-            <a class="profile_link" href="/{{user_id}}/profile/{{post.user_id}}"><h3>{{post.name}}</h3></a>
+            <span class="post__top">
+                <a class="profile_link" href="/{{user_id}}/profile/{{post.user_id}}">
+                <h3 class="name">{{post.name}}</h3></a>
+                {% if post.public %}
+                    <p class="audience">public</p>
+                {% else %}
+                    <p class="audience">friends only</p>
+                {% endif %}
+            </span>
             <p>{{post.content}}</p>
             <br/>
             {% set ns=namespace(mine=false) %}
