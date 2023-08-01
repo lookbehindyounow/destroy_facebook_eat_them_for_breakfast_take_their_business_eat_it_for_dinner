@@ -30,9 +30,9 @@ def seed():
                 Friendship(user_id=shelly_id,friend_id=dan_id),Friendship(user_id=dan_id,friend_id=shelly_id)]
     [db.session.add(friendship) for friendship in friendships]
     
-    posts=[Post(user_id=kev_id,time=datetime.now(),content="come on football yass 3 nil"),
-        Post(user_id=dan_id,time=datetime.now(),content="nobody dm goin thru it"),
-        Post(user_id=shelly_id,time=datetime.now(),content="if you do not share this post your mother will die in her sleep tonight there used to be a little girl who was scared of the dark she did not retweet this message & then later that night in her room there was a presence at the end of her bed she was never heard from again I do not give personcatalog permission to use my data or my photos COPY & PASTE THI S MESSAGE IT LEGAL BONDAGE CONTRACT IT WORKS NO REALLY")]
+    posts=[Post(user_id=kev_id,time=datetime.now(),public=True,content="come on football yass 3 nil"),
+        Post(user_id=dan_id,time=datetime.now(),public=True,content="nobody dm goin thru it"),
+        Post(user_id=shelly_id,time=datetime.now(),public=True,content="if you do not share this post your mother will die in her sleep tonight there used to be a little girl who was scared of the dark she did not retweet this message & then later that night in her room there was a presence at the end of her bed she was never heard from again I do not give personcatalog permission to use my data or my photos COPY & PASTE THI S MESSAGE IT LEGAL BONDAGE CONTRACT IT WORKS NO REALLY")]
     [db.session.add(post) for post in posts]
     
     posts=Post.query.all()

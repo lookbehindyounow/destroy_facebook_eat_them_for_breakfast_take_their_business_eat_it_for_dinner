@@ -70,12 +70,15 @@ class PostOrComment():
         else:
             self.approvals=Approval.query.filter_by(ispost=False,comment_id=self.id).all()
     
-    def edit(self,content):
+    def edit(self,content,public):
         self.content=content
+        self.public=public
         db.session.commit()
 
 class Post(PostOrComment,db.Model):
     __tablename__="posts"
+    
+    public=db.Column(db.Boolean)
     
     comments=db.relationship("Comment",backref="post")
     approvals=db.relationship("Approval",backref="post")

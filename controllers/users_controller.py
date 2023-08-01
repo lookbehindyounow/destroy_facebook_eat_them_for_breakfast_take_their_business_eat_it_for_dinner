@@ -36,7 +36,7 @@ def add_friend(user_id,profile_id):
     db.session.add(Friendship(user_id=user_id,friend_id=profile_id))
     db.session.add(Friendship(user_id=profile_id,friend_id=user_id))
     db.session.commit()
-    if "users" in str(request.url_rule):
+    if "users" in str(request.url_rule): # talk about this condition
         return redirect(f"/{user_id}/users")
     return redirect(f"/{user_id}/profile/{profile_id}")
 
@@ -47,7 +47,7 @@ def remove_friend(user_id,profile_id):
                                     ((Friendship.user_id==profile_id) & (Friendship.friend_id==user_id))).all()
     [db.session.delete(friendship) for friendship in relations] # talk about incase duplicate friendship
     db.session.commit()
-    if "users" in str(request.url_rule): # talk about this condition
+    if "users" in str(request.url_rule):
         return redirect(f"/{user_id}/users")
     return redirect(f"/{user_id}/profile/{profile_id}")
 
@@ -55,7 +55,10 @@ def remove_friend(user_id,profile_id):
 def show_profile(user_id,profile_id):
     profile=User.query.get(profile_id)
     profile.friends_list=User.query.join(Friendship).filter(profile_id==Friendship.friend_id).all()
-    posts=Post.query.filter_by(user_id=profile_id).all()
+    if Friendship.query.filter_by(user_id=user_id,friend_id=profile_id).all() or user_id==profile_id:
+        posts=Post.query.filter_by(user_id=profile_id).all()
+    else:
+        posts=Post.query.filter_by(user_id=profile_id,public=True).all()
     [post.set_variables() for post in posts]
     posts.sort(key=lambda post: post.time, reverse=True)
     return render_template("feed.jinja",user_id=user_id,profile=profile,posts=posts,isprofile=True)

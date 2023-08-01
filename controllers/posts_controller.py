@@ -1,5 +1,5 @@
 from flask import render_template, redirect, Blueprint, request
-from models import Post, Comment, Approval
+from models import Post, Comment, Approval, Friendship
 from app import db
 from datetime import datetime
 
@@ -7,7 +7,10 @@ posts_blueprint=Blueprint("posts",__name__)
 
 @posts_blueprint.route("/<int:user_id>")
 def show_feed(user_id):
-    posts=Post.query.all()
+    friends_posts=Post.query.join(Friendship, Post.user_id==Friendship.friend_id).filter(user_id==Friendship.user_id).all()
+    my_posts_and_public_posts=Post.query.filter((Post.user_id==user_id) | Post.public).all()
+    # talk about these queries
+    posts=friends_posts+my_posts_and_public_posts
     [post.set_variables() for post in posts]
     posts.sort(key=lambda post: max([post.time]+[comment.time for comment in post.comments]), reverse=True)
     # talk about this^ sort
@@ -25,7 +28,7 @@ def new_post_form(user_id):
 
 @posts_blueprint.route("/<int:user_id>",methods=["POST"])
 def new_post(user_id):
-    post=Post(user_id=user_id,time=datetime.now(),content=request.form["content"])
+    post=Post(user_id=user_id,time=datetime.now(),public=("public" in request.form),content=request.form["content"])
     db.session.add(post)
     db.session.commit()
     return redirect(f"/{user_id}")
@@ -52,7 +55,7 @@ def edit_post_form(user_id,post_id):
 @posts_blueprint.route("/<int:user_id>/<int:post_id>/edit_post",methods=["POST"])
 def edit_post(user_id,post_id):
     post=Post.query.get(post_id)
-    post.edit(request.form["content"])
+    post.edit(request.form["content"],("public" in request.form))
     return redirect(f"/{user_id}/{post_id}")
 
 @posts_blueprint.route("/<int:user_id>/<int:post_id>/delete_post")
