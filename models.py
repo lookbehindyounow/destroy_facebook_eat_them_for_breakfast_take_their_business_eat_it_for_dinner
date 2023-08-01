@@ -62,14 +62,11 @@ class PostOrComment():
             self.when=(str(self.time)[8:10]+"/"+str(self.time)[5:7]+"/"+str(self.time)[2:4]
                         +" - "+str(self.time)[11:13]+":"+str(self.time)[14:16])
         
-        all_approvals=Approval.query.all() # see class below - needs changed
         if type(self)==Post:
-            self.approvals=[approval for approval in all_approvals if approval.ispost and approval.post_id==self.id]
+            self.approvals=Approval.query.filter_by(ispost=True,post_id=self.id).all()
+            self.get_comments() # talk about recursive stuff
         else:
-            self.approvals=[approval for approval in all_approvals if not approval.ispost and approval.comment_id==self.id]
-        
-        if type(self)==Post:
-            self.get_comments()
+            self.approvals=Approval.query.filter_by(ispost=False,comment_id=self.id).all()
 
 class Post(PostOrComment,db.Model):
     __tablename__="posts"
@@ -81,11 +78,8 @@ class Post(PostOrComment,db.Model):
         return f"<Post {self.id} by User {self.user_id}: {self.content[:30]}>"
     
     def get_comments(self):
-        all_comments=Comment.query.all()
-        self.comments=[comment for comment in all_comments if comment.post_id==self.id]
-        # self.comments=Comment.query.filter_by(post_id=self.id)
+        self.comments=Comment.query.filter_by(post_id=self.id).order_by(Comment.time).all()
         [comment.set_variables() for comment in self.comments]
-        self.comments.sort(key=lambda comment: comment.time)
 
 class Comment(PostOrComment,db.Model):
     __tablename__="comments"

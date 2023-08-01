@@ -4,7 +4,6 @@ from flask_migrate import Migrate
 
 app=Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"]="postgresql://user@localhost:5432/personcatalog"
-app.config["SQLALCHEMY_ECHO"] = True # what does this line do?
 db=SQLAlchemy(app)
 migrate=Migrate(app,db)
 from seed import seed

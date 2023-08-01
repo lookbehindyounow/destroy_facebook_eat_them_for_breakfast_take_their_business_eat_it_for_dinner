@@ -11,73 +11,62 @@ def login_page():
 
 @users_blueprint.route("/login",methods=["POST"])
 def login():
-    if request.form["new_or_old"]=="new":
-        user=User(name=request.form["name"],password=request.form["password"])
-        db.session.add(user)
-        db.session.commit()
-        users=User.query.all() # SQL THING
-        users.sort(key=lambda user: user.id, reverse=True)
-        friend=Friend(id=users[0].id)
-        db.session.add(friend)
-        db.session.commit()
-    else:
-        users=User.query.all()
-        user=[user for user in users if user.name==request.form["name"] and user.password==request.form["password"]]
-        if len(user)==0:
-            return redirect("/")
-        user=user[0]
+    user=User.query.filter_by(name=request.form["name"],password=request.form["password"]).first()
+    if user==None:
+        if request.form["new_or_old"]=="new":
+            user=User(name=request.form["name"],password=request.form["password"])
+            db.session.add(user)
+            db.session.commit()
+            db.session.add(Friend(id=user.id))
+            db.session.commit()
+        else:
+            return redirect("/") # MAKE AN INCORRECT PASSWORD MESSAGE
     return redirect(f"/{user.id}")
 
 @users_blueprint.route("/<int:user_id>/users")
 def show_users(user_id):
     users=User.query.all()
-    friendships=Friendship.query.all() # SQL ting
-    my_friends_ids=[friendship.friend_id for friendship in friendships if friendship.user_id==user_id]
-    return render_template("users.jinja",user_id=user_id,users=users,my_friends=my_friends_ids)
+    friendships=Friendship.query.filter_by(user_id=user_id).all()
+    friends_ids=[friendship.friend_id for friendship in friendships]
+    return render_template("users.jinja",user_id=user_id,users=users,friends_ids=friends_ids)
 
 @users_blueprint.route("/<int:user_id>/users/<int:friend_id>/add")
 def add_friend(user_id,friend_id):
-    friendships=[Friendship(user_id=user_id,friend_id=friend_id),
-                Friendship(user_id=friend_id,friend_id=user_id)
-    ]
-    db.session.add(friendships[0])
-    db.session.add(friendships[1])
+    db.session.add(Friendship(user_id=user_id,friend_id=friend_id))
+    db.session.add(Friendship(user_id=friend_id,friend_id=user_id))
     db.session.commit()
     return redirect(f"/{user_id}/users")
 
 @users_blueprint.route("/<int:user_id>/users/<int:friend_id>/remove")
 def remove_friend(user_id,friend_id):
-    all_friendships=Friendship.query.all() # SQLLLLLL
-    friendships=[friendship for friendship in all_friendships if
-                (friendship.user_id==user_id and friendship.friend_id==friend_id) or
-                (friendship.user_id==friend_id and friendship.friend_id==user_id)]
-    db.session.delete(friendships[0])
-    db.session.delete(friendships[1])
+    relations=Friendship.query.filter(((Friendship.user_id==user_id) & (Friendship.friend_id==friend_id)) |
+                                    ((Friendship.user_id==friend_id) & (Friendship.friend_id==user_id))).all()
+    [db.session.delete(friendship) for friendship in relations] # talk about incase duplicate friendship
     db.session.commit()
     return redirect(f"/{user_id}/users")
 
 @users_blueprint.route("/<int:user_id>/profile/<int:profile_id>")
 def show_profile(user_id,profile_id):
     profile=User.query.get(profile_id)
-    friendships=Friendship.query.all() # SQL ting
-    profile.friends_list=[User.query.get(friendship.friend_id) for friendship in friendships if friendship.user_id==profile_id]
-    all_posts=Post.query.all() # SQL ting
-    posts=[post for post in all_posts if post.user_id==profile_id]
+    profile.friends_list=User.query.join(Friendship).filter(profile_id==Friendship.friend_id).all()
+    posts=Post.query.filter_by(user_id=profile_id).all()
     [post.set_variables() for post in posts]
+    posts.sort(key=lambda post: post.time, reverse=True)
     return render_template("feed.jinja",user_id=user_id,profile=profile,posts=posts,isprofile=True)
 
 @users_blueprint.route("/<int:user_id>/profile/delete")
 def delete_profile(user_id):
-    friendships=Friendship.query.all() # SQL ting
-    [db.session.delete(friendship) for friendship in friendships if friendship.user_id==user_id or friendship.friend_id==user_id]
+    # talk about the order
+    posts=Post.query.filter_by(user_id=user_id).all()
+    [delete_post(user_id,post.id) for post in posts]
+    comments=Comment.query.filter_by(user_id=user_id).all()
+    [delete_comment(user_id,None,comment.id) for comment in comments] # talk about the None
+    approvals=Approval.query.filter_by(user_id=user_id).all()
+    [db.session.delete(approval) for approval in approvals]
+    friendships=Friendship.query.filter((Friendship.user_id==user_id) | (Friendship.friend_id==user_id)).all()
+    [db.session.delete(friendship) for friendship in friendships]
     friend=Friend.query.get(user_id)
     db.session.delete(friend)
-    approvals=Approval.query.all()
-    [db.session.delete(approval) for approval in approvals if approval.user_id==user_id]
-    comments=Comment.query.all()
-    [delete_comment(user_id,None,comment.id) for comment in comments if comment.user_id==user_id]
-    posts=Post.query.all()
-    [delete_post(user_id,post.id) for post in posts if post.user_id==user_id]
     user=User.query.get(user_id)
     db.session.delete(user)
     db.session.commit()

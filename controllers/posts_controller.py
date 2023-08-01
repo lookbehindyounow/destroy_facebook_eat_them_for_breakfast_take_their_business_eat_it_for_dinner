@@ -7,9 +7,10 @@ posts_blueprint=Blueprint("posts",__name__)
 
 @posts_blueprint.route("/<int:user_id>")
 def show_feed(user_id):
-    posts=Post.query.all() # sort by time of last engagement (maybe just reverse the list, could edit a post's table entry & edit it right back to what it was each time a comment is made to 'bump' it down to the bottom of the posts table in the db)
-    [(post.set_variables(),post.get_comments()) for post in posts]
-    posts.sort(key=lambda post: post.time, reverse=True)
+    posts=Post.query.all()
+    [post.set_variables() for post in posts]
+    posts.sort(key=lambda post: max([post.time]+[comment.time for comment in post.comments]), reverse=True)
+    # talk about this^ sort
     return render_template("feed.jinja",user_id=user_id,posts=posts,isprofile=False)
 
 @posts_blueprint.route("/<int:user_id>/<int:post_id>")
@@ -59,6 +60,7 @@ def edit_post(user_id,post_id):
 def delete_post(user_id,post_id):
     post=Post.query.get(post_id)
     post.set_variables()
+    # talk about the order
     [db.session.delete(approval) for approval in post.approvals]
     [[db.session.delete(approval) for approval in comment.approvals] for comment in post.comments]
     [db.session.delete(comment) for comment in post.comments]
@@ -76,7 +78,7 @@ def edit_comment_form(user_id,post_id,comment_id):
 @posts_blueprint.route("/<int:user_id>/<int:post_id>/<int:comment_id>/edit_comment",methods=["POST"])
 def edit_comment(user_id,post_id,comment_id):
     comment=Comment.query.get(comment_id)
-    comment.content=request.form["content"]
+    comment.content=request.form["content"] # make a method for this & post edit
     db.session.commit()
     return redirect(f"/{user_id}/{post_id}")
 
@@ -89,29 +91,22 @@ def delete_comment(user_id,post_id,comment_id):
     db.session.commit()
     return redirect(f"/{user_id}/{post_id}")
 
-@posts_blueprint.route("/<int:user_id>/<int:post_id>/approve/<fromfeed>")
-def approve_post(user_id,post_id,fromfeed):
-    approvals=Approval.query.all() #SQL HER HERE HERE HRERE
-    existing=[approval for approval in approvals if approval.user_id==user_id and approval.post_id==post_id]
-    if len(existing)==0:
-        approval=Approval(user_id=user_id,ispost=True,post_id=post_id)
-        db.session.add(approval)
-    else:
-        db.session.delete(existing[0])
-    db.session.commit()
-    if bool(int(fromfeed)):
-        return redirect(f"/{user_id}")
-    else:
-        return redirect(f"/{user_id}/{post_id}")
-
+@posts_blueprint.route("/<int:user_id>/<int:post_id>/approve/<int:fromfeed>")
 @posts_blueprint.route("/<int:user_id>/<int:post_id>/<int:comment_id>/approve")
-def approve_comment(user_id,post_id,comment_id):
-    approvals=Approval.query.all()
-    existing=[approval for approval in approvals if approval.user_id==user_id and approval.comment_id==comment_id]
-    if len(existing)==0:
-        approval=Approval(user_id=user_id,ispost=False,comment_id=comment_id)
+def approve(user_id,post_id,comment_id=None,fromfeed=False):
+    if comment_id==None:
+        approvals=Approval.query.filter_by(user_id=user_id,post_id=post_id).all()
+    else:
+        approvals=Approval.query.filter_by(user_id=user_id,comment_id=comment_id).all()
+    if len(approvals)==0:
+        if comment_id==None:
+            approval=Approval(user_id=user_id,ispost=True,post_id=post_id)
+        else:
+            approval=Approval(user_id=user_id,ispost=False,comment_id=comment_id)
         db.session.add(approval)
     else:
-        db.session.delete(existing[0])
+        [db.session.delete(approval) for approval in approvals] # talk about incase duplicate approval
     db.session.commit()
+    if fromfeed: # talk about this condition
+        return redirect(f"/{user_id}")
     return redirect(f"/{user_id}/{post_id}")

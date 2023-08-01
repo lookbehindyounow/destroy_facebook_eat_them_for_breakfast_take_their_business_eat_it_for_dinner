@@ -3,7 +3,7 @@
     {% for user in users %}
         <li><a class="profile_link" href="/{{user_id}}/profile/{{user.id}}">{{user.name}} - </a>{% if user.id==user_id %}
             <a class="post--link" href="/{{user_id}}/profile/{{user.id}}">My profile</a>
-        {% elif user.id in my_friends %}
+        {% elif user.id in friends_ids %}
             <a class="post--link" href="/{{user_id}}/users/{{user.id}}/remove">Remove friend</a>
         {% else %}
             <a class="post--link" href="/{{user_id}}/users/{{user.id}}/add">Add friend</a>
