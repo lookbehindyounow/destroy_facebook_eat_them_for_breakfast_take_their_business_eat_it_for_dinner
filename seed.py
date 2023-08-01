@@ -22,7 +22,7 @@ def seed():
     users=User.query.all()
     kev_id=[user.id for user in users if user.name=="kev"][0]
     dan_id=[user.id for user in users if user.name=="dan"][0]
-    shelly_id=[user.id for user in users if user.name=="shelly"][0]
+    shelly_id=[user.id for user in users if user.name=="shelly (my cat)"][0]
     
     [db.session.add(Friend(id=user.id)) for user in users]
     

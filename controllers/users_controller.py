@@ -14,9 +14,11 @@ def login_page():
     login_message=False
     if str(request.url_rule)=="/":
         new=False
+        passwords=[user.password for user in User.query.all()]
     else:
         new=True
-    return render_template("login.jinja",new=new,login_message=temp_message)
+        passwords=[]
+    return render_template("login.jinja",new=new,login_message=temp_message,passwords=passwords)
 
 @users_blueprint.route("/login",methods=["POST"])
 def login():

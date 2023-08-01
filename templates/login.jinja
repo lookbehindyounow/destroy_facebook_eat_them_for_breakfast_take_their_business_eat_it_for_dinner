@@ -23,7 +23,15 @@
                 <label for="name">Name:</label>
                 <input type="text" name="name" id="name" required/>
                 <label for="password">Password:</label>
-                <input type="text" name="password" id="password" required/>
+                {% if new %}
+                    <input type="text" name="password" id="password" required/>
+                {% else %}
+                    <select name="password" id="password">
+                    {% for password in passwords %}
+                        <option value="{{password}}">{{password}}</option>
+                    {% endfor %}
+                    </select>
+                {% endif %}
                 <button type="submit">{% if new %}Sign up{% else %}Log in{% endif %}</button>
                 {% if login_message %}
                     {% if new %}
