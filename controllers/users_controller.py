@@ -7,20 +7,28 @@ users_blueprint=Blueprint("users",__name__)
 
 @users_blueprint.route("/")
 def login_page():
-    return render_template("login.jinja")
+    return render_template("login.jinja",new=False)
+
+@users_blueprint.route("/new_user")
+def signup_page():
+    return render_template("login.jinja",new=True)
 
 @users_blueprint.route("/login",methods=["POST"])
 def login():
     user=User.query.filter_by(name=request.form["name"],password=request.form["password"]).first()
     if user==None:
-        if request.form["new_or_old"]=="new":
-            user=User(name=request.form["name"],password=request.form["password"])
-            db.session.add(user)
-            db.session.commit()
-            db.session.add(Friend(id=user.id))
-            db.session.commit()
-        else:
-            return redirect("/") # MAKE AN INCORRECT PASSWORD MESSAGE
+        return redirect("/")
+    return redirect(f"/{user.id}")
+
+@users_blueprint.route("/signup",methods=["POST"])
+def signup():
+    if User.query.filter_by(name=request.form["name"],password=request.form["password"]).all():
+        return redirect("/new_user")
+    user=User(name=request.form["name"],password=request.form["password"])
+    db.session.add(user)
+    db.session.commit()
+    db.session.add(Friend(id=user.id))
+    db.session.commit()
     return redirect(f"/{user.id}")
 
 @users_blueprint.route("/<int:user_id>/users")

@@ -10,17 +10,21 @@
         <header>
             <h1>Welcome to PersonCatalog</h1>
         </header>
+        <br/>
         <div class="container">
-            <form action="/login" method="post">
-                <label for="old">I have an account</label>
-                <input type="radio" name="new_or_old" id="old" value="old" checked>
-                <label for="new">I'm new</label>
-                <input type="radio" name="new_or_old" id="new" value="new">
+            <form action={% if new %}"/signup"{% else %}"/login"{% endif %} method="post">
+                {% if new %}
+                    <a class="post--link" href="/">--> I have an account <--</a>
+                {% else %}
+                    <a class="post--link" href="/new_user">--> I'm new <--</a>
+                {% endif %}
+                <br/>
+                <br/>
                 <label for="name">Name:</label>
                 <input type="text" name="name" id="name" required/>
                 <label for="password">Password:</label>
                 <input type="text" name="password" id="password" required/>
-                <button type="submit">Log in / Sign up</button> {# see if you can get this to change text based on selected radio button #}
+                <button type="submit">{% if new %}Sign up{% else %}Log in{% endif %}</button>
             </form>
         </div>
     </body>
