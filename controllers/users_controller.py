@@ -31,6 +31,7 @@ def show_users(user_id):
     return render_template("users.jinja",user_id=user_id,users=users,friends_ids=friends_ids)
 
 @users_blueprint.route("/<int:user_id>/users/<int:friend_id>/add")
+@users_blueprint.route("/<int:user_id>/profile/<int:friend_id>/add") # make this a recognnisable thing that redirects back to the profile page
 def add_friend(user_id,friend_id):
     db.session.add(Friendship(user_id=user_id,friend_id=friend_id))
     db.session.add(Friendship(user_id=friend_id,friend_id=user_id))
@@ -38,6 +39,7 @@ def add_friend(user_id,friend_id):
     return redirect(f"/{user_id}/users")
 
 @users_blueprint.route("/<int:user_id>/users/<int:friend_id>/remove")
+@users_blueprint.route("/<int:user_id>/profile/<int:friend_id>/remove") # make this a recognnisable thing that redirects back to the profile page
 def remove_friend(user_id,friend_id):
     relations=Friendship.query.filter(((Friendship.user_id==user_id) & (Friendship.friend_id==friend_id)) |
                                     ((Friendship.user_id==friend_id) & (Friendship.friend_id==user_id))).all()

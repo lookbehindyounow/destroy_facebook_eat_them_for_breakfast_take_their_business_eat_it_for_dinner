@@ -5,9 +5,9 @@
         {% if user.id==user_id %}
             <a class="post--link" href="/{{user_id}}/profile/{{user.id}}">My profile</a>
         {% elif user.id in friends_ids %}
-            <a class="post--link" href="/{{user_id}}/users/{{user.id}}/remove">Remove friend</a>
+            <a class="remove_friend post--link" href="/{{user_id}}/users/{{user.id}}/remove">Remove friend</a>
         {% else %}
-            <a class="post--link" href="/{{user_id}}/users/{{user.id}}/add">Add friend</a>
+            <a class="add_friend post--link" href="/{{user_id}}/users/{{user.id}}/add">+Add friend</a>
         {% endif %}
         </li>
     {% endfor %}

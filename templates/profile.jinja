@@ -5,13 +5,21 @@
         <br/>
         <p>Friends:</p>
         <ul class="friends_list">
+        {# set ns=namespace(friends_ids=[]) #}
+        {% set friends_ids=[] %}
         {% for friend in profile.friends_list %}
             <li><a class="profile_link" href="/{{user_id}}/profile/{{friend.id}}">{{friend.name}}</a></li>
+            {% set friends_ids=friends_ids.append(friend.id) %}
+            {{friends_ids[loop.index0]}}
         {% endfor %}
         </ul>
+        <br/>
         {% if profile.id==user_id %}
-            <br/>
             <a class="delete_profile" href="/{{user_id}}/profile/delete">Delete profile</a>
+        {% elif user_id in friends_ids %}
+            <a class="post--link remove_friend" href="/{{user_id}}/profile/{{profile.id}}/remove">Remove friend</a>
+        {% else %}
+            <a class="post--link add_friend" href="/{{user_id}}/profile/{{profile.id}}/add">+Add friend</a>
         {% endif %}
     </aside>
     <hr/>
