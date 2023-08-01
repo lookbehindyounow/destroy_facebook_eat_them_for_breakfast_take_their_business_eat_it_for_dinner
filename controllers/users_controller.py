@@ -30,22 +30,26 @@ def show_users(user_id):
     friends_ids=[friendship.friend_id for friendship in friendships]
     return render_template("users.jinja",user_id=user_id,users=users,friends_ids=friends_ids)
 
-@users_blueprint.route("/<int:user_id>/users/<int:friend_id>/add")
-@users_blueprint.route("/<int:user_id>/profile/<int:friend_id>/add") # make this a recognnisable thing that redirects back to the profile page
-def add_friend(user_id,friend_id):
-    db.session.add(Friendship(user_id=user_id,friend_id=friend_id))
-    db.session.add(Friendship(user_id=friend_id,friend_id=user_id))
+@users_blueprint.route("/<int:user_id>/users/<int:profile_id>/add")
+@users_blueprint.route("/<int:user_id>/profile/<int:profile_id>/add")
+def add_friend(user_id,profile_id):
+    db.session.add(Friendship(user_id=user_id,friend_id=profile_id))
+    db.session.add(Friendship(user_id=profile_id,friend_id=user_id))
     db.session.commit()
-    return redirect(f"/{user_id}/users")
+    if "users" in str(request.url_rule):
+        return redirect(f"/{user_id}/users")
+    return redirect(f"/{user_id}/profile/{profile_id}")
 
-@users_blueprint.route("/<int:user_id>/users/<int:friend_id>/remove")
-@users_blueprint.route("/<int:user_id>/profile/<int:friend_id>/remove") # make this a recognnisable thing that redirects back to the profile page
-def remove_friend(user_id,friend_id):
-    relations=Friendship.query.filter(((Friendship.user_id==user_id) & (Friendship.friend_id==friend_id)) |
-                                    ((Friendship.user_id==friend_id) & (Friendship.friend_id==user_id))).all()
+@users_blueprint.route("/<int:user_id>/users/<int:profile_id>/remove")
+@users_blueprint.route("/<int:user_id>/profile/<int:profile_id>/remove")
+def remove_friend(user_id,profile_id):
+    relations=Friendship.query.filter(((Friendship.user_id==user_id) & (Friendship.friend_id==profile_id)) |
+                                    ((Friendship.user_id==profile_id) & (Friendship.friend_id==user_id))).all()
     [db.session.delete(friendship) for friendship in relations] # talk about incase duplicate friendship
     db.session.commit()
-    return redirect(f"/{user_id}/users")
+    if "users" in str(request.url_rule): # talk about this condition
+        return redirect(f"/{user_id}/users")
+    return redirect(f"/{user_id}/profile/{profile_id}")
 
 @users_blueprint.route("/<int:user_id>/profile/<int:profile_id>")
 def show_profile(user_id,profile_id):
