@@ -25,9 +25,8 @@ def seed():
     dan_id=[user.id for user in users if user.name=="dan"][0]
     shelly_id=[user.id for user in users if user.name=="shelly (my cat)"][0]
     
-
-    [os.unlink(os.getcwd()+"/static/pfp/"+filename) for filename in os.listdir(os.getcwd()+"/static/pfp")]
-    shutil.copy(os.getcwd()+"/static/seed_pfp/kev.jpg",f"{os.getcwd()}/static/pfp/{kev_id}.jpg")
+    [os.unlink(os.getcwd()+"/static/pfp/"+filename) for filename in os.listdir(os.getcwd()+"/static/pfp/")]
+    shutil.copy(os.getcwd(  )+"/static/seed_pfp/kev.jpg",f"{os.getcwd()}/static/pfp/{kev_id}.jpg")
     shutil.copy(os.getcwd()+"/static/seed_pfp/dan.jpg",f"{os.getcwd()}/static/pfp/{dan_id}.jpg")
     shutil.copy(os.getcwd()+"/static/seed_pfp/shelly.jpg",f"{os.getcwd()}/static/pfp/{shelly_id}.jpg")
     
