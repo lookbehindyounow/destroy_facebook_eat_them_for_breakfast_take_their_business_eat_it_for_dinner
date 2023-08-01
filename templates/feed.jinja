@@ -10,6 +10,9 @@
         <div class="post__left">
             <span class="post__top">
                 <a class="profile_link" href="/{{user_id}}/profile/{{post.user_id}}">
+                {% if post.extension %}
+                    <img src="/static/pfp/{{post.user_id}}.{{post.extension}}"/>
+                {% endif %}
                 <h4 class="name">{{post.name}}</h4></a>
                 {% if post.public %}
                     <p class="audience">public</p>

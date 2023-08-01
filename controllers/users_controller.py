@@ -82,6 +82,15 @@ def show_profile(user_id,profile_id):
     posts.sort(key=lambda post: post.time, reverse=True)
     return render_template("feed.jinja",user_id=user_id,profile=profile,posts=posts,isprofile=True)
 
+@users_blueprint.route("/<int:user_id>/profile/pfp",methods=["POST"])
+def profile_pic(user_id):
+    user=User.query.get(user_id)
+    pfp=request.files["profile_picture"]
+    user.extension=pfp.filename.split(".")[-1] # talk about file extension getting
+    db.session.commit()
+    pfp.save(f"static/pfp/{user_id}.{user.extension}")
+    return redirect(f"/{user_id}/profile/{user_id}")
+
 @users_blueprint.route("/<int:user_id>/profile/delete")
 def delete_profile(user_id):
     # talk about the order

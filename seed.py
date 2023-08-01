@@ -3,6 +3,7 @@ from models import User, Friend, Friendship, Post, Comment, Approval
 import click
 from flask.cli import with_appcontext
 from datetime import datetime
+import os, shutil
 
 @click.command(name='seed')
 @with_appcontext
@@ -14,15 +15,19 @@ def seed():
     Friend.query.delete()
     User.query.delete()
     
-    users=[User(name="kev",password="kev123"),
-        User(name="dan",password="password"),
-        User(name="shelly",password="meow")]
+    users=[User(name="kev",password="kev123",extension="jpg"),
+        User(name="dan",password="password",extension="jpg"),
+        User(name="shelly (my cat)",password="meow",extension="jpg")]
     [db.session.add(user) for user in users]
     
     users=User.query.all()
     kev_id=[user.id for user in users if user.name=="kev"][0]
     dan_id=[user.id for user in users if user.name=="dan"][0]
     shelly_id=[user.id for user in users if user.name=="shelly (my cat)"][0]
+    
+    shutil.copy(os.getcwd()+"/static/pfp/seed/kev.jpg",f"{os.getcwd()}/static/pfp/{kev_id}.jpg")
+    shutil.copy(os.getcwd()+"/static/pfp/seed/dan.jpg",f"{os.getcwd()}/static/pfp/{dan_id}.jpg")
+    shutil.copy(os.getcwd()+"/static/pfp/seed/shelly.jpg",f"{os.getcwd()}/static/pfp/{shelly_id}.jpg")
     
     [db.session.add(Friend(id=user.id)) for user in users]
     
@@ -32,7 +37,7 @@ def seed():
     
     posts=[Post(user_id=kev_id,time=datetime.now(),public=True,content="come on football yass 3 nil"),
         Post(user_id=dan_id,time=datetime.now(),public=True,content="nobody dm goin thru it"),
-        Post(user_id=shelly_id,time=datetime.now(),public=False,content="if you do not share this post your mother will die in her sleep tonight there used to be a little girl who was scared of the dark she did not retweet this message & then later that night in her room there was a presence at the end of her bed she was never heard from again I do not give personcatalog permission to use my data or my photos COPY & PASTE THI S MESSAGE IT LEGAL BONDAGE CONTRACT IT WORKS NO REALLY")]
+        Post(user_id=shelly_id,time=datetime.now(),public=False,content="if you do not share this post your mother will die in her sleep tonight there used to be a little girl who was scared of the dark she did not retweet this message & then later that night in her room there was a presence at the end of her bed she was never heard from again I do not give personcatalog permission to use my data or my photos COPY & PASTE THI S MESSAGE IT LEGAL BONDAGE CONTRACT")]
     [db.session.add(post) for post in posts]
     
     posts=Post.query.all()

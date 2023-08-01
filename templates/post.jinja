@@ -4,6 +4,9 @@
         <div class="post__left">
             <span class="post__top">
                 <a class="profile_link" href="/{{user_id}}/profile/{{post.user_id}}">
+                {% if post.extension %}
+                    <img src="/static/pfp/{{post.user_id}}.{{post.extension}}"/>
+                {% endif %}
                 <h3 class="name">{{post.name}}</h3></a>
                 {% if post.public %}
                     <p class="audience">public</p>
@@ -37,7 +40,11 @@
     {% for comment in post.comments %}
         <div class="comment">
             <div class="comment__left">
-                <a class="profile_link" href="/{{user_id}}/profile/{{comment.user_id}}"><h5>{{comment.name}}</h5></a>
+                <a class="profile_link" href="/{{user_id}}/profile/{{comment.user_id}}">
+                {% if comment.extension %}
+                    <img src="/static/pfp/{{comment.user_id}}.{{comment.extension}}"/>
+                {% endif %}
+                <h5>{{comment.name}}</h5></a>
                 <p>{{comment.content}}</p>
                 <br/>
                 {% set ns=namespace(mine=false) %}

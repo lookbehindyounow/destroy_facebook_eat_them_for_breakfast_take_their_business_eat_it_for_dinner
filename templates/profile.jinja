@@ -1,20 +1,32 @@
 {% extends 'base.jinja' %}{% block content %}
     <aside class="details">
+        {% if profile.extension %}
+            <img class="pfp" src="/static/pfp/{{profile.id}}.{{profile.extension}}"/>
+        {% endif %}
         <h3>{{profile.name}}</h3>
         <p>password: {{profile.password}}</p>
         <br/>
         <p>Friends:</p>
         <ul class="friends_list">
-        {# set ns=namespace(friends_ids=[]) #}
         {% set friends_ids=[] %}
         {% for friend in profile.friends_list %}
-            <li><a class="profile_link" href="/{{user_id}}/profile/{{friend.id}}">{{friend.name}}</a></li>
+            <li><p class="profile_link" href="/{{user_id}}/profile/{{friend.id}}">
+            {% if friend.extension %}
+                <img src="/static/pfp/{{friend.id}}.{{friend.extension}}"/>
+            {% endif %}
+            <p>{{friend.name}}</p></a></li>
             {% set friends_ids=friends_ids.append(friend.id) %}
             {{friends_ids[loop.index0]}}
         {% endfor %}
         </ul>
         <br/>
         {% if profile.id==user_id %}
+            {# talk about enctype here #}
+            <form class="pfp_upload" action="/{{user_id}}/profile/pfp" method="post" enctype="multipart/form-data">
+                <input type="file" id="profile_picture" name="profile_picture" accept="image/*" required>
+                <button type="submit">update profile picture</button>
+            </form>
+            <br/>
             <a class="delete_profile" href="/{{user_id}}/profile/delete">Delete profile</a>
         {% elif user_id in friends_ids %}
             <a class="post--link remove_friend" href="/{{user_id}}/profile/{{profile.id}}/remove">Remove friend</a>

@@ -9,6 +9,8 @@ class User(db.Model):
     name=db.Column(db.String(64))
     password=db.Column(db.String(64))
     
+    extension=db.Column(db.String(16))
+    
     friends=db.relationship("Friend",backref="user")
     friendships=db.relationship("Friendship",backref="user")
     posts=db.relationship("Post",backref="user")
@@ -47,7 +49,9 @@ class PostOrComment():
     content=db.Column(db.Text())
     
     def set_variables(self):
-        self.name=User.query.get(self.user_id).name
+        user=User.query.get(self.user_id)
+        self.name=user.name
+        self.extension=user.extension
         
         seconds_since=(datetime.now()-self.time).seconds
         if seconds_since<86400:

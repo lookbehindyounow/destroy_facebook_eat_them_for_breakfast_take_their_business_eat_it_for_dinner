@@ -1,7 +1,9 @@
 {% extends 'base.jinja' %}{% block content %}
 <ul class="users">
     {% for user in users %}
-        <li><a class="profile_link" href="/{{user_id}}/profile/{{user.id}}">{{user.name}} - </a>
+        <li><a class="profile_link" href="/{{user_id}}/profile/{{user.id}}">
+        <img src="/static/pfp/{{user.id}}.{{user.extension}}"/>
+        <p>{{user.name}} - </p></a>
         {% if user.id==user_id %}
             <a class="post--link" href="/{{user_id}}/profile/{{user.id}}">My profile</a>
         {% elif user.id in friends_ids %}
