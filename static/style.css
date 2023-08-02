@@ -1,12 +1,40 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: "Helvetica", arial, sans-serif;
 }
 
-body {
-  font-family: "Helvetica", arial, sans-serif;
-  font-size: 16px;
-  background: rgb(252, 254, 255);
+/* nav bar */
+
+.menu {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 10px;
+  background-color: #1d248f;
+}
+
+.menu li {
+  padding: 0 30px;
+  border-left: solid;
+  border-color: grey;
+}
+
+.menu li:first-of-type {
+  border: none;
+}
+
+.menu a {
+  text-decoration: none;
+  color: white;
+}
+
+.menu ul {
+  display: flex;
+}
+
+li {
+  list-style: none;
 }
 
 nav img {
@@ -14,6 +42,8 @@ nav img {
   width: 415px;
   height: 40px;
 }
+
+/* general buttons, links, etc. */
 
 input, select, button {
   font-size: 100%;
@@ -26,7 +56,69 @@ input, select, button {
 
 .input_box_restrictor {
   margin-right: 20px;
+  /* this is to stop the text box from stretching all the way
+  to the end of the post when posting/editing a comment */
 }
+
+.post--link , .profile_link , .content {
+  text-decoration: none;
+  color: black;
+}
+
+.post--link {
+  font-style: italic;
+}
+
+.profile_link {
+  display: flex;
+}
+
+.profile_link img{
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 20px;
+}
+
+.alter__edit , .comment_button , .add_friend , .remove_friend , .delete_profile {
+  border: solid;
+  border-radius: 10px;
+  margin-left: 5px;
+  padding: 0 7px 0 5px;
+  color: #000764;
+  font-style: italic;
+  text-decoration: none;
+  height: fit-content;
+  width: fit-content;
+}
+
+.alter__edit , .add_friend {
+  border-color: #ffb700;
+  background-color: #ffd56a;
+}
+
+.alter__edit {
+  border-style: dashed;
+}
+
+.alter__delete {
+  color: #ff0000;
+  text-decoration: none;
+  font-weight: bolder;
+  margin-top: 2px;
+}
+
+.comment_button {
+  border-color: #000764;
+  background-color: #edefff;
+}
+
+.remove_friend , .delete_profile {
+  border-color: red;
+  background-color: #ffadad;
+}
+
+/* containers */
 
 .container {
   display: flex;
@@ -42,7 +134,18 @@ input, select, button {
   margin-top: 82px;
 }
 
-.something_else_not_sure_yet {
+.login {
+  width: 500px;
+}
+
+.feed {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.something_else_not_sure_yet { /* HERE IT IS INCASE YOU'RE LOOKING FOR IT*/
   position: fixed;
   right: 5%;
   top: 92px;
@@ -54,42 +157,9 @@ input, select, button {
   border: solid;
 }
 
-.profile_link {
-  display: flex;
-  color: black;
-  text-decoration: none;
-}
+/* posts */
 
-.profile_link img{
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
-  border-radius: 20px;
-}
-
-.pfp {
-  width: 140px;
-  height: 140px;
-  border-radius: 70px;
-}
-
-.feed {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  width: 60%;
-}
-
-.details {
-  display: flex;
-  flex-direction: column;
-}
-
-.friends_list {
-  margin-left: 10px;
-}
-
-.focused_container {
+.post_page {
   display: flex;
   flex-direction: column;
   margin: 10px 0;
@@ -108,76 +178,12 @@ input, select, button {
   padding: 10px;
 }
 
-.post {
-  background-color: #e4fff6;
-}
-
 .comment {
   border-width: 1px;
   border-color: #00ffaa;
   background-color: white;
   max-width: 400px;
   gap: 20px
-}
-
-.comment__right , .post__right {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-width: fit-content;
-  gap: 5px
-}
-
-.alter_buttons {
-  display: flex;
-  gap: 5px;
-}
-
-.pfp_upload {
-  width: 200px;
-  margin: 0;
-  padding: 0;
-}
-
-.alter__edit , .comment_button , .delete_profile , .add_friend , .remove_friend {
-  color: #000764;
-  text-decoration: none;
-  border-radius: 10px;
-  padding: 0 9px 0 5px;
-  margin-left: 5px;
-  border: dashed;
-  border-color: #ffb700;
-  background-color: #ffd56a;
-  font-style: italic;
-  height: fit-content;
-}
-
-.add_friend {
-  border: solid;
-  border-color: #ffb700;
-  width: fit-content;
-}
-
-.alter__delete {
-  color: #ff0000;
-  text-decoration: none;
-  font-family:Arial, Helvetica, sans-serif;
-  font-weight: bolder;
-  margin-top: 2px;
-}
-
-.comment_button {
-  border: solid;
-  border-color: #000764;
-  background-color: #edefff;
-  max-width: fit-content;
-}
-
-.delete_profile , .remove_friend {
-  border: solid;
-  border-color: red;
-  background-color: #ffadad;
-  width: fit-content;
 }
 
 .post__body {
@@ -197,13 +203,17 @@ input, select, button {
   color: grey;
 }
 
-.post--link , .content {
-  text-decoration: none;
-  color: black;
+.post__right , .comment__right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: fit-content;
+  gap: 5px
 }
 
-.post--link {
-  font-style: italic;
+.alter_buttons {
+  display: flex;
+  gap: 5px;
 }
 
 .interactions {
@@ -218,42 +228,29 @@ input, select, button {
   color: #2631c4;
 }
 
-.menu {
-  padding: 10px 10px 10px 0;
-  background-color: #1d248f;
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
+/* profile page */
 
-.menu ul {
-  display: flex;
-}
-
-li {
-  list-style: none;
-}
-
-.menu li {
-  padding: 0 30px;
-  border-left: solid;
-  border-color: grey;
-  font-family: "Helvetica", arial, sans-serif;
-  font-size: 16px;
-}
-
-.menu a {
-  text-decoration: none;
-  color: white;
-}
-
-.menu li:first-of-type {
-  border: none;
+.pfp {
+  width: 140px;
+  height: 140px;
+  border-radius: 70px;
 }
 
 .details {
+  display: flex;
+  flex-direction: column;
   margin-top: 10px;
   width: 200px;
+}
+
+.friends_list {
+  margin-left: 10px;
+}
+
+.pfp_upload {
+  width: 200px;
+  margin: 0;
+  padding: 0;
 }
 
 .details .pfp_upload * {
@@ -274,6 +271,8 @@ li {
   border-style: outset;
   border-color: buttonborder;
 }
+
+/* users page */
 
 .users {
   margin-top: 10px;
