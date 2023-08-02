@@ -2,6 +2,7 @@ from flask import render_template, redirect, Blueprint, request
 from models import User, Friend, Friendship, Post, Comment, Approval
 from app import db
 from controllers.posts_controller import delete_post, delete_comment
+from base64 import b64encode
 
 users_blueprint=Blueprint("users",__name__)
 login_message=False
@@ -85,10 +86,9 @@ def show_profile(user_id,profile_id):
 @users_blueprint.route("/<int:user_id>/profile/pfp",methods=["POST"])
 def profile_pic(user_id):
     user=User.query.get(user_id)
-    pfp=request.files["profile_picture"]
-    user.extension=pfp.filename.split(".")[-1] # talk about file extension getting
+    binary_pfp=request.files["profile_picture"].read()
+    user.pfp=b64encode(binary_pfp).decode("utf-8")
     db.session.commit()
-    pfp.save(f"static/pfp/{user_id}.{user.extension}")
     return redirect(f"/{user_id}/profile/{user_id}")
 
 @users_blueprint.route("/<int:user_id>/profile/delete")

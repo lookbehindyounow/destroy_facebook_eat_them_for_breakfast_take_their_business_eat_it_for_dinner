@@ -3,7 +3,7 @@ from models import User, Friend, Friendship, Post, Comment, Approval
 import click
 from flask.cli import with_appcontext
 from datetime import datetime
-import os, shutil
+from base64 import b64encode
 
 @click.command(name='seed')
 @with_appcontext
@@ -15,20 +15,21 @@ def seed():
     Friend.query.delete()
     User.query.delete()
     
-    users=[User(name="kev",password="kev123",extension="jpg"),
-        User(name="dan",password="password",extension="jpg"),
-        User(name="shelly (my cat)",password="meow",extension="jpg")]
+    kev_pfp=open("seed_pfp/kev.jpg","rb").read() # as binary
+    dan_pfp=open("seed_pfp/dan.jpg","rb").read()
+    shelly_pfp=open("seed_pfp/shelly.jpg","rb").read()
+    kev_pfp=b64encode(kev_pfp).decode("utf-8") # as something FIGURE OUT WHAT - text?
+    dan_pfp=b64encode(dan_pfp).decode("utf-8")
+    shelly_pfp=b64encode(shelly_pfp).decode("utf-8")
+    users=[User(name="kev",password="kev123",pfp=kev_pfp),
+        User(name="dan",password="password",pfp=dan_pfp),
+        User(name="shelly (my cat)",password="meow",pfp=shelly_pfp)]
     [db.session.add(user) for user in users]
     
     users=User.query.all()
     kev_id=[user.id for user in users if user.name=="kev"][0]
     dan_id=[user.id for user in users if user.name=="dan"][0]
     shelly_id=[user.id for user in users if user.name=="shelly (my cat)"][0]
-    
-    [os.unlink(os.getcwd()+"/static/pfp/"+filename) for filename in os.listdir(os.getcwd()+"/static/pfp/")]
-    shutil.copy(os.getcwd(  )+"/static/seed_pfp/kev.jpg",f"{os.getcwd()}/static/pfp/{kev_id}.jpg")
-    shutil.copy(os.getcwd()+"/static/seed_pfp/dan.jpg",f"{os.getcwd()}/static/pfp/{dan_id}.jpg")
-    shutil.copy(os.getcwd()+"/static/seed_pfp/shelly.jpg",f"{os.getcwd()}/static/pfp/{shelly_id}.jpg")
     
     [db.session.add(Friend(id=user.id)) for user in users]
     
@@ -38,7 +39,11 @@ def seed():
     
     posts=[Post(user_id=kev_id,time=datetime.now(),public=True,content="come on football yass 3 nil"),
         Post(user_id=dan_id,time=datetime.now(),public=True,content="nobody dm goin thru it"),
-        Post(user_id=shelly_id,time=datetime.now(),public=False,content="if you do not share this post your mother will die in her sleep tonight there used to be a little girl who was scared of the dark she did not retweet this message & then later that night in her room there was a presence at the end of her bed she was never heard from again I do not give personcatalog permission to use my data or my photos COPY & PASTE THI S MESSAGE IT LEGAL BONDAGE CONTRACT")]
+        Post(user_id=shelly_id,time=datetime.now(),public=False,content="if you do not share this post your "+
+            "mother will die in her sleep tonight there used to be a little girl who was scared of the dark "+
+            "she did not retweet this message & then later that night in her room there was a presence at the "+
+            "end of her bed she was never heard from again I do not give personcatalog permission to use my "+
+            "data or my photos COPY & PASTE THI S MESSAGE IT LEGAL BONDAGE CONTRACT")]
     [db.session.add(post) for post in posts]
     
     posts=Post.query.all()
@@ -46,7 +51,8 @@ def seed():
     nodm_id=[post.id for post in posts if post.content[0]=="n"][0]
     chainmail_id=[post.id for post in posts if post.content[0]=="i"][0]
     
-    comments=[Comment(user_id=dan_id,post_id=footy_id,time=datetime.now(),content="boo we should have won your team sucks"),
+    comments=[Comment(user_id=dan_id,post_id=footy_id,time=datetime.now(),content="boo we should have won "+
+                                                                                    "your team sucks"),
         Comment(user_id=shelly_id,post_id=footy_id,time=datetime.now(),content="come on you boys in green"),
         Comment(user_id=shelly_id,post_id=nodm_id,time=datetime.now(),content="dm me hun x")]
     [db.session.add(comment) for comment in comments]
@@ -60,4 +66,5 @@ def seed():
             Approval(user_id=kev_id,ispost=False,comment_id=green_id),
             Approval(user_id=dan_id,ispost=False,comment_id=boo_id)]
     [db.session.add(approval) for approval in approvals]
+    
     db.session.commit()

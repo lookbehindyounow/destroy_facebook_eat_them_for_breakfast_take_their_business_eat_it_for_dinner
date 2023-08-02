@@ -9,7 +9,7 @@ class User(db.Model):
     name=db.Column(db.String(64))
     password=db.Column(db.String(64))
     
-    extension=db.Column(db.String(16))
+    pfp=db.Column(db.Text())
     
     friends=db.relationship("Friend",backref="user")
     friendships=db.relationship("Friendship",backref="user")
@@ -42,7 +42,7 @@ class Friendship(db.Model):
         return f"<Friendship {self.id} between Users {self.user_id} & {self.friend_id}>"
 
 class PostOrComment():
-    id=db.Column(db.Integer,primary_key=True) # look into that uuid(?) thing jack was talking about
+    id=db.Column(db.Integer,primary_key=True)
     user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
     time=db.Column(db.DateTime)
     
@@ -51,7 +51,7 @@ class PostOrComment():
     def set_variables(self):
         user=User.query.get(self.user_id)
         self.name=user.name
-        self.extension=user.extension
+        self.pfp=user.pfp
         
         seconds_since=(datetime.now()-self.time).seconds
         if seconds_since<86400:

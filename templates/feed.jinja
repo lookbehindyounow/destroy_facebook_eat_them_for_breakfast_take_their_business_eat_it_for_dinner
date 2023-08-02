@@ -11,8 +11,8 @@
         <div class="post__left">
             <span class="post__top">
                 <a class="profile_link" href="/{{user_id}}/profile/{{post.user_id}}">
-                    {% if post.extension %}
-                        <img src="/static/pfp/{{post.user_id}}.{{post.extension}}"/>
+                    {% if post.pfp %}
+                        <img src="data:;base64,{{post.pfp}}"/>
                     {% endif %}
                     <h4 class="name">{{post.name}}</h4>
                 </a>

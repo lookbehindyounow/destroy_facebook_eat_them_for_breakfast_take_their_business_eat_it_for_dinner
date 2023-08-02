@@ -1,7 +1,7 @@
 {% extends 'composite/base.jinja' %}{% block content %}
 <aside class="details">
-    {% if profile.extension %}
-        <img class="pfp" src="/static/pfp/{{profile.id}}.{{profile.extension}}"/>
+    {% if profile.pfp %}
+        <img class="pfp" src="data:;base64,{{profile.pfp}}"/>
     {% endif %}
     <h3>{{profile.name}}</h3>
     <p>password: {{profile.password}}</p>
@@ -11,8 +11,8 @@
         {% set friends_ids=[] %}
         {% for friend in profile.friends_list %}
             <li><a class="profile_link" href="/{{user_id}}/profile/{{friend.id}}">
-                {% if friend.extension %}
-                    <img src="/static/pfp/{{friend.id}}.{{friend.extension}}"/>
+                {% if friend.pfp %}
+                    <img src="data:;base64,{{friend.pfp}}"/>
                 {% endif %}
                 <p>{{friend.name}}</p>
             </a></li>

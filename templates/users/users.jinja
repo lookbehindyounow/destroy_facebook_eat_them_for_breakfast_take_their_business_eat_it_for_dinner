@@ -3,7 +3,9 @@
     {% for user in users %}
         <li>
             <a class="profile_link" href="/{{user_id}}/profile/{{user.id}}">
-                <img src="/static/pfp/{{user.id}}.{{user.extension}}"/>
+                {% if user.pfp %}
+                    <img src="data:;base64,{{user.pfp}}"/>
+                {% endif %}
                 <p>{{user.name}} - </p>
             </a>
             {% if user.id==user_id %}
