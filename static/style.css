@@ -21,6 +21,7 @@ input, select, button {
   padding: 10px;
   margin: 10px;
   box-sizing: border-box;
+  border-radius: 5px;
 }
 
 .input_box_restrictor {
@@ -143,10 +144,12 @@ input, select, button {
   text-decoration: none;
   border-radius: 10px;
   padding: 0 9px 0 5px;
+  margin-left: 5px;
   border: dashed;
   border-color: #ffb700;
   background-color: #ffd56a;
   font-style: italic;
+  height: fit-content;
 }
 
 .add_friend {
@@ -246,4 +249,40 @@ li {
 
 .menu li:first-of-type {
   border: none;
+}
+
+.details {
+  margin-top: 10px;
+  width: 200px;
+}
+
+.details .pfp_upload * {
+  width: 175px;
+}
+
+.details .pfp_upload input {
+  display: none;
+}
+
+.details .pfp_upload label {
+  margin-left: 10px;
+  border: solid;
+  background-color: #efefef;
+  border-radius: 5px;
+  padding: 0 3px 2px 3px;
+  border-width: 2px;
+  border-style: outset;
+  border-color: buttonborder;
+}
+
+.users {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  gap: 20px;
+}
+
+.users li {
+  display: flex;
 }

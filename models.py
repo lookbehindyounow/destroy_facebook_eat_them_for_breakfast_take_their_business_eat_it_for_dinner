@@ -74,7 +74,7 @@ class PostOrComment():
         else:
             self.approvals=Approval.query.filter_by(ispost=False,comment_id=self.id).all()
     
-    def edit(self,content,public):
+    def edit(self,content,public=None):
         self.content=content
         self.public=public
         db.session.commit()

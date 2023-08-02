@@ -23,6 +23,7 @@
     {% if profile.id==user_id %}
         {# talk about enctype here #}
         <form class="pfp_upload" action="/{{user_id}}/profile/pfp" method="post" enctype="multipart/form-data">
+            <label for="profile_picture">upload picture</label>
             <input type="file" id="profile_picture" name="profile_picture" accept="image/*" required/>
             <button type="submit">update profile picture</button>
         </form>
