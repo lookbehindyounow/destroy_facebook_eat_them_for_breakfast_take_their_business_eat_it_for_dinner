@@ -1,7 +1,7 @@
 {% if isprofile %}
-    {% extends 'profile.jinja' %}
+    {% extends 'users/profile.jinja' %}
 {% else %}
-    {% extends 'index.jinja' %}
+    {% extends 'composite/index.jinja' %}
 {% endif %}
 
 {% block feed %}

@@ -24,7 +24,7 @@ def show_post(user_id,post_id):
 
 @posts_blueprint.route("/<int:user_id>/new_post_form")
 def new_post_form(user_id):
-    return render_template("new.jinja",user_id=user_id,role="Post")
+    return render_template("composite/new.jinja",user_id=user_id,role="Post")
 
 @posts_blueprint.route("/<int:user_id>",methods=["POST"])
 def new_post(user_id):
@@ -37,7 +37,7 @@ def new_post(user_id):
 def new_comment_form(user_id,post_id):
     post=Post.query.get(post_id)
     post.set_variables()
-    return render_template("new.jinja",user_id=user_id,role="Comment",post=post)
+    return render_template("composite/new.jinja",user_id=user_id,role="Comment",post=post)
 
 @posts_blueprint.route("/<int:user_id>/<int:post_id>",methods=["POST"])
 def new_comment(user_id,post_id):
@@ -50,7 +50,7 @@ def new_comment(user_id,post_id):
 def edit_post_form(user_id,post_id):
     post=Post.query.get(post_id)
     post.set_variables()
-    return render_template("new.jinja",user_id=user_id,role="Update Post",post=post)
+    return render_template("composite/new.jinja",user_id=user_id,role="Update Post",post=post)
 
 @posts_blueprint.route("/<int:user_id>/<int:post_id>/edit_post",methods=["POST"])
 def edit_post(user_id,post_id):
@@ -75,7 +75,7 @@ def edit_comment_form(user_id,post_id,comment_id):
     post=Post.query.get(post_id)
     post.set_variables()
     comment=Comment.query.get(comment_id)
-    return render_template("new.jinja",user_id=user_id,role="Update Comment",post=post,comment=comment)
+    return render_template("composite/new.jinja",user_id=user_id,role="Update Comment",post=post,comment=comment)
 
 @posts_blueprint.route("/<int:user_id>/<int:post_id>/<int:comment_id>/edit_comment",methods=["POST"])
 def edit_comment(user_id,post_id,comment_id):

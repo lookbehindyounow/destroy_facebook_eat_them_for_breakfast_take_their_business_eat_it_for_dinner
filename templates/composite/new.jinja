@@ -1,9 +1,9 @@
 {% if role=="Post" %}
-    {% extends "base.jinja" %}
+    {% extends "composite/base.jinja" %}
     {% set form_action = "" %}
     {% set place_val="you have to tell them they need to know" %}
 {% elif role=="Update Post" %}
-    {% extends "base.jinja" %}
+    {% extends "composite/base.jinja" %}
     {% set form_action = "/" ~ post.id ~ "/edit_post" %}
     {% set place_val=post.content %}
 {% elif role=="Comment" %}

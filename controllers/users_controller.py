@@ -47,7 +47,7 @@ def show_users(user_id):
     users=User.query.all()
     friendships=Friendship.query.filter_by(user_id=user_id).all()
     friends_ids=[friendship.friend_id for friendship in friendships]
-    return render_template("users.jinja",user_id=user_id,users=users,friends_ids=friends_ids)
+    return render_template("users/users.jinja",user_id=user_id,users=users,friends_ids=friends_ids)
 
 @users_blueprint.route("/<int:user_id>/users/<int:profile_id>/add")
 @users_blueprint.route("/<int:user_id>/profile/<int:profile_id>/add")
