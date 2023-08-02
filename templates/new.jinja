@@ -18,13 +18,11 @@
 
 {% block form %}
 <form action=/{{user_id}}{{form_action}} method="post">
-    <input type="text" name="content" id="content"
-    {% if role[:6]=="Update" %}
+    <input type="text" name="content" id="content" {% if role[:6]=="Update" %}
         value="{{place_val}}"
     {% else %}
         placeholder="{{place_val}}"
-    {% endif %}
-    required autofocus/>
+    {% endif %} required autofocus/>
     {% if role[-4:]=="Post" %}
         <div class="public">
             <label for="public">Public</label>

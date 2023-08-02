@@ -3,15 +3,13 @@
   padding: 0;
 }
 
-/* MAKE NAV BAR STAY AT TOP OF PAGE WHEN SCROLLING */
-
 body {
   font-family: "Helvetica", arial, sans-serif;
   font-size: 16px;
   background: rgb(252, 254, 255);
 }
 
-img {
+nav img {
   margin-left: 25px;
   width: 415px;
   height: 40px;
@@ -39,19 +37,43 @@ input, select, button {
   margin: 0 auto;
 }
 
+.not_nav {
+  margin-top: 82px;
+}
+
+.something_else_not_sure_yet {
+  position: fixed;
+  right: 5%;
+  top: 92px;
+  bottom: 20px;
+  width: calc(36% - 15px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid;
+}
+
 .profile_link {
   display: flex;
   color: black;
   text-decoration: none;
 }
 
-.profile_link img , .pfp {
+.profile_link img{
   width: 40px;
   height: 40px;
+  margin-right: 10px;
+  border-radius: 20px;
+}
+
+.pfp {
+  width: 140px;
+  height: 140px;
+  border-radius: 70px;
 }
 
 .feed {
-  margin: 10px 0;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   width: 60%;
@@ -64,15 +86,6 @@ input, select, button {
 
 .friends_list {
   margin-left: 10px;
-}
-
-.something_else_not_sure_yet {
-  margin: 10px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: calc(40% - 15px);
-  border: solid;
 }
 
 .focused_container {
@@ -174,7 +187,7 @@ input, select, button {
 }
 
 .name {
-  width: 150px;
+  margin-right: 15px;
 }
 
 .audience {
@@ -205,6 +218,9 @@ input, select, button {
 .menu {
   padding: 10px 10px 10px 0;
   background-color: #1d248f;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 .menu ul {

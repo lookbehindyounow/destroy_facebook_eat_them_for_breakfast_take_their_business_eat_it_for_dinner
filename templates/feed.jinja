@@ -3,17 +3,23 @@
 {% else %}
     {% extends 'index.jinja' %}
 {% endif %}
+
 {% block feed %}
+{% if not isprofile %}
+    <section>
+{% endif %}
+
 <section class="feed">
     {% for post in posts %}
     <div class="post">
         <div class="post__left">
             <span class="post__top">
                 <a class="profile_link" href="/{{user_id}}/profile/{{post.user_id}}">
-                {% if post.extension %}
-                    <img src="/static/pfp/{{post.user_id}}.{{post.extension}}"/>
-                {% endif %}
-                <h4 class="name">{{post.name}}</h4></a>
+                    {% if post.extension %}
+                        <img src="/static/pfp/{{post.user_id}}.{{post.extension}}"/>
+                    {% endif %}
+                    <h4 class="name">{{post.name}}</h4>
+                </a>
                 {% if post.public %}
                     <p class="audience">public</p>
                 {% else %}
@@ -25,30 +31,38 @@
             <p class="interactions">
                 <span class="approvals">
                     {% set ns=namespace(mine=false) %}
-                        {% for approval in post.approvals %}
-                            {% if approval.user_id==user_id %}
-                                {% set ns.mine=true %}
-                            {% endif %}
-                        {% endfor %}
-                    <a class="post--link{% if ns.mine %} mine{% endif %}" href="/{{user_id}}/{{post.id}}/approve/1">{{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}</a>
+                    {% for approval in post.approvals %}
+                        {% if approval.user_id==user_id %}
+                            {% set ns.mine=true %}
+                        {% endif %}
+                    {% endfor %}
+                    <a class="post--link{% if ns.mine %} mine{% endif %}"
+                    href="/{{user_id}}/{{post.id}}/approve/1">
+                        {{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}
+                    </a>
                 </span>
                 {% if post.comments|length!=0 %}
-                <a class="post--link" href="/{{user_id}}/{{post.id}}">{{post.comments|length}} comment{% if post.comments|length!=1 %}s{% endif %}</a>
+                    <a class="post--link" href="/{{user_id}}/{{post.id}}">
+                    {{post.comments|length}} comment{% if post.comments|length!=1 %}s{% endif %}</a>
                 {% endif %}
             </p>
         </div>
-            <div class="post__right">
+        <div class="post__right">
             <p>{{post.when}}</p>
-                {% if user_id==post.user_id %}
-                    <div class="alter_buttons">
-                        <a class="alter__edit" href="/{{user_id}}/{{post.id}}/edit_post_form">edit</a>
-                        <br/>
-                        <a class="alter__delete" href="/{{user_id}}/{{post.id}}/delete_post">X</a>
-                    </div>
-                {% endif %}
-            </div>
+            {% if user_id==post.user_id %}
+                <div class="alter_buttons">
+                    <a class="alter__edit" href="/{{user_id}}/{{post.id}}/edit_post_form">edit</a>
+                    <br/>
+                    <a class="alter__delete" href="/{{user_id}}/{{post.id}}/delete_post">X</a>
+                </div>
+            {% endif %}
         </div>
-        <br/>
+    </div>
+    <br/>
     {% endfor %}
 </section>
+
+{% if not isprofile %}
+    </section>
+{% endif %}
 {% endblock feed %}

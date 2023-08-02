@@ -9,8 +9,8 @@ posts_blueprint=Blueprint("posts",__name__)
 def show_feed(user_id):
     friends_posts=Post.query.join(Friendship, Post.user_id==Friendship.friend_id).filter(user_id==Friendship.user_id).all()
     my_posts_and_public_posts=Post.query.filter((Post.user_id==user_id) | Post.public).all()
-    # talk about these queries
-    posts=friends_posts+my_posts_and_public_posts
+    # talk about these queries & the duplicate removal below
+    posts=list(set(friends_posts+my_posts_and_public_posts))
     [post.set_variables() for post in posts]
     posts.sort(key=lambda post: max([post.time]+[comment.time for comment in post.comments]), reverse=True)
     # talk about this^ sort

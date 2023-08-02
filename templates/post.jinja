@@ -4,10 +4,11 @@
         <div class="post__left">
             <span class="post__top">
                 <a class="profile_link" href="/{{user_id}}/profile/{{post.user_id}}">
-                {% if post.extension %}
-                    <img src="/static/pfp/{{post.user_id}}.{{post.extension}}"/>
-                {% endif %}
-                <h3 class="name">{{post.name}}</h3></a>
+                    {% if post.extension %}
+                        <img src="/static/pfp/{{post.user_id}}.{{post.extension}}"/>
+                    {% endif %}
+                    <h3 class="name">{{post.name}}</h3>
+                </a>
                 {% if post.public %}
                     <p class="audience">public</p>
                 {% else %}
@@ -23,17 +24,18 @@
                 {% endif %}
             {% endfor %}
             <a class="post--link{% if ns.mine %} mine{% endif %}" href="/{{user_id}}/{{post.id}}/approve/0">
-            {{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}</a>
+                {{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}
+            </a>
         </div>
         <div class="post__right">
             <p>{{post.when}}</p>
-        {% if user_id==post.user_id %}
-            <div class="alter_buttons">
-                <a class="alter__edit" href="/{{user_id}}/{{post.id}}/edit_post_form">edit</a>
-                <br/>
-                <a class="alter__delete" href="/{{user_id}}/{{post.id}}/delete_post">X</a>
-            </div>
-        {% endif %}
+            {% if user_id==post.user_id %}
+                <div class="alter_buttons">
+                    <a class="alter__edit" href="/{{user_id}}/{{post.id}}/edit_post_form">edit</a>
+                    <br/>
+                    <a class="alter__delete" href="/{{user_id}}/{{post.id}}/delete_post">X</a>
+                </div>
+            {% endif %}
         </div>
     </div>
     <hr/>
@@ -41,10 +43,11 @@
         <div class="comment">
             <div class="comment__left">
                 <a class="profile_link" href="/{{user_id}}/profile/{{comment.user_id}}">
-                {% if comment.extension %}
-                    <img src="/static/pfp/{{comment.user_id}}.{{comment.extension}}"/>
-                {% endif %}
-                <h5>{{comment.name}}</h5></a>
+                    {% if comment.extension %}
+                        <img src="/static/pfp/{{comment.user_id}}.{{comment.extension}}"/>
+                    {% endif %}
+                    <h5>{{comment.name}}</h5>
+                </a>
                 <p>{{comment.content}}</p>
                 <br/>
                 {% set ns=namespace(mine=false) %}
@@ -53,29 +56,33 @@
                         {% set ns.mine = true %}
                     {% endif %}
                 {% endfor %}
-                <a class="post--link{% if ns.mine %} mine{% endif %}" href="/{{user_id}}/{{post.id}}/{{comment.id}}/approve">
-                {{comment.approvals|length}} approval{% if comment.approvals|length!=1 %}s{% endif %}</a>
+                <a class="post--link{% if ns.mine %} mine{% endif %}"
+                href="/{{user_id}}/{{post.id}}/{{comment.id}}/approve">
+                    {{comment.approvals|length}} approval{% if comment.approvals|length!=1 %}s{% endif %}
+                </a>
             </div>
             <div class="comment__right">
                 <p>{{comment.when}}</p>
-            {% if user_id==comment.user_id %}
-                {% if role=="edit_comment" %}
-                    {% block edit_comment %}{% endblock edit_comment %}
-                {% else %}
-                    <div class="alter_buttons">
-                        <a class="alter__edit" href="/{{user_id}}/{{post.id}}/{{comment.id}}/edit_comment_form">edit</a>
-                        <br/>
-                        <a class="alter__delete" href="/{{user_id}}/{{post.id}}/{{comment.id}}/delete_comment">X</a>
-                    </div>
+                {% if user_id==comment.user_id %}
+                    {% if role=="edit_comment" %}
+                        {% block edit_comment %}{% endblock edit_comment %}
+                    {% else %}
+                        <div class="alter_buttons">
+                            <a class="alter__edit"
+                            href="/{{user_id}}/{{post.id}}/{{comment.id}}/edit_comment_form">edit</a>
+                            <br/>
+                            <a class="alter__delete"
+                            href="/{{user_id}}/{{post.id}}/{{comment.id}}/delete_comment">X</a>
+                        </div>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
             </div>
         </div>
     {% endfor %}
     <div class="input_box_restrictor">
-    {% block form %}
-        <a class="comment_button" href="/{{user_id}}/{{post.id}}/new_comment_form">comment</a>
-    {% endblock form %}
+        {% block form %}
+            <a class="comment_button" href="/{{user_id}}/{{post.id}}/new_comment_form">comment</a>
+        {% endblock form %}
     </div>
 </div>
 {%endblock%}
