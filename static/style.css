@@ -54,10 +54,8 @@ input, select, button {
   border-radius: 5px;
 }
 
-.input_box_restrictor {
+.comment_input_box_restrictor {
   margin-right: 20px;
-  /* this is to stop the text box from stretching all the way
-  to the end of the post when posting/editing a comment */
 }
 
 .post--link , .profile_link , .content {
@@ -136,6 +134,10 @@ input, select, button {
 
 .login {
   width: 500px;
+}
+
+.home_feed {
+  width: 100%;
 }
 
 .feed {
