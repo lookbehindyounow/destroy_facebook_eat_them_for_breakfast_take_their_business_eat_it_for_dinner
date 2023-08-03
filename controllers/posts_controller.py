@@ -1,5 +1,5 @@
 from flask import render_template, redirect, Blueprint, request
-from models import Post, Comment, Approval, Friendship
+from models import User, Post, Comment, Approval, Friendship
 from app import db
 from datetime import datetime
 
@@ -14,7 +14,10 @@ def show_feed(user_id):
     [post.set_variables() for post in posts]
     posts.sort(key=lambda post: max([post.time]+[comment.time for comment in post.comments]), reverse=True)
     # talk about this^ sort
-    return render_template("feed.jinja",user_id=user_id,posts=posts,isprofile=False)
+    user=User.query.get(user_id) # only need for roulette
+    user.roulette.wheel=True
+    user.roulette.ball=True
+    return render_template("feed.jinja",user_id=user_id,posts=posts,isprofile=False,roulette=user.roulette)
 
 @posts_blueprint.route("/<int:user_id>/<int:post_id>")
 def show_post(user_id,post_id):
@@ -62,7 +65,6 @@ def edit_post(user_id,post_id):
 def delete_post(user_id,post_id):
     post=Post.query.get(post_id)
     post.set_variables()
-    # talk about the order
     [db.session.delete(approval) for approval in post.approvals]
     [[db.session.delete(approval) for approval in comment.approvals] for comment in post.comments]
     [db.session.delete(comment) for comment in post.comments]

@@ -41,6 +41,8 @@ def signup():
     db.session.commit()
     db.session.add(Friend(id=user.id))
     db.session.commit()
+    global roulette # ROULETTE STUFF UNFINISHED
+    roulette.wheel=True
     return redirect(f"/{user.id}")
 
 @users_blueprint.route("/<int:user_id>/users")
@@ -93,11 +95,10 @@ def profile_pic(user_id):
 
 @users_blueprint.route("/<int:user_id>/profile/delete")
 def delete_profile(user_id):
-    # talk about the order
     posts=Post.query.filter_by(user_id=user_id).all()
     [delete_post(user_id,post.id) for post in posts]
     comments=Comment.query.filter_by(user_id=user_id).all()
-    [delete_comment(user_id,None,comment.id) for comment in comments] # talk about the None
+    [delete_comment(user_id,None,comment.id) for comment in comments]
     approvals=Approval.query.filter_by(user_id=user_id).all()
     [db.session.delete(approval) for approval in approvals]
     friendships=Friendship.query.filter((Friendship.user_id==user_id) | (Friendship.friend_id==user_id)).all()

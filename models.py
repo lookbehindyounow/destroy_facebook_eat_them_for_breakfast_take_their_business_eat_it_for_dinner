@@ -1,6 +1,11 @@
 from app import db
 from datetime import datetime
 
+class Roulette():
+    def __init__(self):
+        self.wheel=False
+        self.ball=False
+
 class User(db.Model):
     __tablename__="users"
     
@@ -10,6 +15,8 @@ class User(db.Model):
     password=db.Column(db.String(64))
     
     pfp=db.Column(db.Text())
+    
+    roulette=Roulette()
     
     friends=db.relationship("Friend",backref="user")
     friendships=db.relationship("Friendship",backref="user")
@@ -63,7 +70,7 @@ class PostOrComment():
             else:
                 self.when=str(seconds_since//3600)+" hrs ago"
             if self.when[:2]=="1 ":
-                self.when=self.when[:-5]+self.when[-4:] # talk about s removal
+                self.when=self.when[:-5]+self.when[-4:]
         else:
             self.when=(str(self.time)[8:10]+"/"+str(self.time)[5:7]+"/"+str(self.time)[2:4]
                         +" - "+str(self.time)[11:13]+":"+str(self.time)[14:16])

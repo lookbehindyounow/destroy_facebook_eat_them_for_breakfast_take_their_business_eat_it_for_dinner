@@ -147,16 +147,58 @@ input, select, button {
   width: 60%;
 }
 
-.something_else_not_sure_yet { /* HERE IT IS INCASE YOU'RE LOOKING FOR IT*/
+.gambling {
   position: fixed;
   right: 5%;
   top: 92px;
-  bottom: 20px;
   width: calc(36% - 15px);
+}
+
+.gambling:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.ball_square {
+  position: absolute;
+  margin: 27%;
+  width: 46%;
+  height: 46%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  border: solid;
+}
+
+/* gambling animation */
+/* animations are called in index.jinja */
+
+.wheel {
+  position: absolute;
+  width: 100%;
+}
+
+.ball {
+  position: absolute;
+  height: 100%;
+  margin: 0 auto;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes back_rotation {
+  from {
+    transform: rotate(359deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
 }
 
 /* posts */

@@ -2,5 +2,17 @@
     <section class="home_feed">
         {% block feed %}{% endblock feed %}
     </section>
-    <section class="something_else_not_sure_yet">something will go here</section>
+    <section class="gambling">
+        <img class="wheel"
+        {% if roulette.wheel %}
+            style="animation: rotation 1s infinite linear;"
+        {% endif %}
+        src="/static/roulette.png" alt="gambling"/>
+        <div class="ball_square">
+            <img class="ball" {% if roulette.ball %}
+                style="animation: back_rotation 1s infinite linear;"
+            {% endif %}
+            src="/static/ball.png" alt="gambling"/>
+        </div>
+    </section>
 {% endblock %}

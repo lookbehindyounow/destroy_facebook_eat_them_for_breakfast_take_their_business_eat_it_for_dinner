@@ -15,10 +15,10 @@ def seed():
     Friend.query.delete()
     User.query.delete()
     
-    kev_pfp=open("seed_pfp/kev.jpg","rb").read() # as binary
+    kev_pfp=open("seed_pfp/kev.jpg","rb").read()
     dan_pfp=open("seed_pfp/dan.jpg","rb").read()
     shelly_pfp=open("seed_pfp/shelly.jpg","rb").read()
-    kev_pfp=b64encode(kev_pfp).decode("utf-8") # as something FIGURE OUT WHAT - text?
+    kev_pfp=b64encode(kev_pfp).decode("utf-8")
     dan_pfp=b64encode(dan_pfp).decode("utf-8")
     shelly_pfp=b64encode(shelly_pfp).decode("utf-8")
     users=[User(name="kev",password="kev123",pfp=kev_pfp),
