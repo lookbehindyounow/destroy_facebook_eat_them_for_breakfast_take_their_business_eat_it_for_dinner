@@ -1,10 +1,11 @@
 from app import db
 from datetime import datetime
 
-class Roulette():
+class Roulette:
     def __init__(self):
         self.wheel=False
         self.ball=False
+        print(1)
 
 class User(db.Model):
     __tablename__="users"

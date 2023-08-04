@@ -21,6 +21,7 @@ def seed():
     kev_pfp=b64encode(kev_pfp).decode("utf-8")
     dan_pfp=b64encode(dan_pfp).decode("utf-8")
     shelly_pfp=b64encode(shelly_pfp).decode("utf-8")
+    print(2)
     users=[User(name="kev",password="kev123",pfp=kev_pfp),
         User(name="dan",password="password",pfp=dan_pfp),
         User(name="shelly (my cat)",password="meow",pfp=shelly_pfp)]
@@ -30,6 +31,8 @@ def seed():
     kev_id=[user.id for user in users if user.name=="kev"][0]
     dan_id=[user.id for user in users if user.name=="dan"][0]
     shelly_id=[user.id for user in users if user.name=="shelly (my cat)"][0]
+    kev=User.query.get(kev_id)
+    print(kev.roulette)
     
     [db.session.add(Friend(id=user.id)) for user in users]
     

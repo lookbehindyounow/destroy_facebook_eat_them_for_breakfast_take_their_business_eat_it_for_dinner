@@ -41,8 +41,6 @@ def signup():
     db.session.commit()
     db.session.add(Friend(id=user.id))
     db.session.commit()
-    global roulette # ROULETTE STUFF UNFINISHED
-    roulette.wheel=True
     return redirect(f"/{user.id}")
 
 @users_blueprint.route("/<int:user_id>/users")

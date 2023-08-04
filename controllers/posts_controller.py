@@ -15,6 +15,7 @@ def show_feed(user_id):
     posts.sort(key=lambda post: max([post.time]+[comment.time for comment in post.comments]), reverse=True)
     # talk about this^ sort
     user=User.query.get(user_id) # only need for roulette
+    print(user.roulette.ball)
     user.roulette.wheel=True
     user.roulette.ball=True
     return render_template("feed.jinja",user_id=user_id,posts=posts,isprofile=False,roulette=user.roulette)
