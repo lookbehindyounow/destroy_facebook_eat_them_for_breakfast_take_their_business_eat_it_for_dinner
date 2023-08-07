@@ -1,37 +1,39 @@
 from app import db
 from datetime import datetime
 
-class Roulette:
-    def __init__(self):
+class Roulette: # will need to store some starting variables for roulette,
+    def __init__(self): # I reckon a roulette object stored as an attribute with each user is a neat idea 
         self.wheel=False
         self.ball=False
-        print(1)
 
 class User(db.Model):
-    __tablename__="users"
+    __tablename__="users" # class name is User but table should be called users not user
     
     id=db.Column(db.Integer,primary_key=True)
     
     name=db.Column(db.String(64))
     password=db.Column(db.String(64))
     
+    # text field is ideal for base64, which is how the profile pictures are encoded in the database
     pfp=db.Column(db.Text())
     
-    roulette=Roulette()
+    roulette=Roulette() # creates roulette object for each user
     
-    friends=db.relationship("Friend",backref="user")
+    friends=db.relationship("Friend",backref="user") # linking the one to all of it's manys
     friendships=db.relationship("Friendship",backref="user")
     posts=db.relationship("Post",backref="user")
     comments=db.relationship("Comment",backref="user")
     approvals=db.relationship("Approval",backref="user")
     
-    def __repr__(self):
+    def __repr__(self): # changes what shows up if you try to print an object to terminal
         return f"<User {self.id}: {self.name}>"
 
 class Friend(db.Model):
+    # This is dummy table that holds only a copy of every user's id so we can spoof a many to many
+    # relationship between the users table & itself
     __tablename__="friends"
     
-    id=db.Column(db.Integer,db.ForeignKey("users.id"),primary_key=True)
+    id=db.Column(db.Integer,db.ForeignKey("users.id"),primary_key=True) # primary & foreign key, spooky
     
     friendships=db.relationship("Friendship",backref="friend")
     
@@ -43,13 +45,14 @@ class Friendship(db.Model):
     
     id=db.Column(db.Integer,primary_key=True)
     
+    # it wouldn't let me have two foreign keys for the same table, hence the need for the friends table^^
     user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
     friend_id=db.Column(db.Integer,db.ForeignKey("friends.id"))
     
     def __repr__(self):
         return f"<Friendship {self.id} between Users {self.user_id} & {self.friend_id}>"
 
-class PostOrComment():
+class PostOrComment(): # posts & comments share a lot of attributes & methods so they both inherit from here
     id=db.Column(db.Integer,primary_key=True)
     user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
     time=db.Column(db.DateTime)
@@ -57,10 +60,13 @@ class PostOrComment():
     content=db.Column(db.Text())
     
     def set_variables(self):
-        user=User.query.get(self.user_id)
+        # this method gathers data about a post or comment from records linked to it,
+        # as these variables can change without the post or comment's record changing
+        user=User.query.get(self.user_id) # get poster's name & pfp
         self.name=user.name
         self.pfp=user.pfp
         
+        # find out how long since posted
         seconds_since=(datetime.now()-self.time).seconds
         if seconds_since<86400:
             if seconds_since<3600:
@@ -72,13 +78,13 @@ class PostOrComment():
                 self.when=str(seconds_since//3600)+" hrs ago"
             if self.when[:2]=="1 ":
                 self.when=self.when[:-5]+self.when[-4:]
-        else:
+        else: # or just say the date & time if longer than a day
             self.when=(str(self.time)[8:10]+"/"+str(self.time)[5:7]+"/"+str(self.time)[2:4]
                         +" - "+str(self.time)[11:13]+":"+str(self.time)[14:16])
         
         if type(self)==Post:
             self.approvals=Approval.query.filter_by(ispost=True,post_id=self.id).all()
-            self.get_comments() # talk about recursive stuff
+            self.get_comments() # if it's a post, repeat this process for all it's comments
         else:
             self.approvals=Approval.query.filter_by(ispost=False,comment_id=self.id).all()
     
@@ -100,6 +106,7 @@ class Post(PostOrComment,db.Model):
     
     def get_comments(self):
         self.comments=Comment.query.filter_by(post_id=self.id).order_by(Comment.time).all()
+        # here's the other end of that slightly recursive thing at the end of set_variables()
         [comment.set_variables() for comment in self.comments]
 
 class Comment(PostOrComment,db.Model):
@@ -118,7 +125,7 @@ class Approval(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
     
-    ispost=db.Column(db.Boolean)
+    ispost=db.Column(db.Boolean) # tells us whether an approval is registered to a post or comment
     post_id=db.Column(db.Integer,db.ForeignKey("posts.id"))
     comment_id=db.Column(db.Integer,db.ForeignKey("comments.id"))
     

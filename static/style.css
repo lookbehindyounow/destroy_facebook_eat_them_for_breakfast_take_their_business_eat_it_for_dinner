@@ -7,7 +7,7 @@
 /* nav bar */
 
 .menu {
-  position: fixed;
+  position: fixed; /* keep nav bar in same place when scrolling */
   top: 0;
   width: 100%;
   padding: 10px;
@@ -16,7 +16,7 @@
 
 .menu li {
   padding: 0 30px;
-  border-left: solid;
+  border-left: solid; /* lines between nav bar items */
   border-color: grey;
 }
 
@@ -34,7 +34,7 @@
 }
 
 li {
-  list-style: none;
+  list-style: none; /* no bullet points for any list */
 }
 
 nav img {
@@ -55,11 +55,12 @@ input, select, button {
 }
 
 .comment_input_box_restrictor {
-  margin-right: 20px;
+  margin-right: 20px; /* stops input box for writing/editing comments from
+                      stretching all the way to the end of the post border */
 }
 
 .post--link , .profile_link , .content {
-  text-decoration: none;
+  text-decoration: none; /* so links don't look like links */
   color: black;
 }
 
@@ -71,14 +72,14 @@ input, select, button {
   display: flex;
 }
 
-.profile_link img{
+.profile_link img{ /* pfp formatting */
   width: 40px;
   height: 40px;
   margin-right: 10px;
   border-radius: 20px;
 }
 
-.alter__edit , .comment_button , .add_friend , .remove_friend , .delete_profile {
+.alter__edit , .comment_button , .add_friend , .remove_friend , .delete_profile { /* button shaped buttons */
   border: solid;
   border-radius: 10px;
   margin-left: 5px;
@@ -118,7 +119,7 @@ input, select, button {
 
 /* containers */
 
-.container {
+.container {  /* handles main margins for most of website */
   display: flex;
   justify-content: center;
   gap: 15px;
@@ -129,7 +130,7 @@ input, select, button {
 }
 
 .not_nav {
-  margin-top: 82px;
+  margin-top: 82px;  /* space for nav bar since it's always at the top */
 }
 
 .login {
@@ -148,19 +149,19 @@ input, select, button {
 }
 
 .gambling {
-  position: fixed;
+  position: fixed;  /* for keeping the roulette wheel stationary while scrolling homepage feed */
   right: 5%;
   top: 92px;
   width: calc(36% - 15px);
 }
 
-.gambling:after {
+.gambling:after { /* keep roulette wheel's box square */
   content: "";
   display: block;
   padding-bottom: 100%;
 }
 
-.ball_square {
+.ball_square { /* keep roulette ball's container square & centred inside the roulette wheel's square */
   position: absolute;
   margin: 27%;
   width: 46%;
@@ -180,10 +181,11 @@ input, select, button {
 .ball {
   position: absolute;
   height: 100%;
-  margin: 0 auto;
+  margin: 0 auto; /* ball image is a tall rectangle that's all transparent
+                  colour apart from a white circle at the top */
 }
 
-@keyframes rotation {
+@keyframes rotation { /* spin clockwise animation */
   from {
     transform: rotate(0deg);
   }
@@ -192,7 +194,7 @@ input, select, button {
   }
 }
 
-@keyframes back_rotation {
+@keyframes back_rotation { /* anti-clockwise */
   from {
     transform: rotate(359deg);
   }
@@ -213,7 +215,7 @@ input, select, button {
   gap: 10px;
 }
 
-.post , .comment {
+.post , .comment { /* blob shapes for posts & comments */
   display: flex;
   justify-content: space-between;
   border: solid;
@@ -269,12 +271,12 @@ input, select, button {
 }
 
 .mine {
-  color: #2631c4;
+  color: #2631c4; /* makes approvals blue when you approve */
 }
 
 /* profile page */
 
-.pfp {
+.pfp { /* pfp only on profile viewing page */
   width: 140px;
   height: 140px;
   border-radius: 70px;
@@ -302,10 +304,10 @@ input, select, button {
 }
 
 .details .pfp_upload input {
-  display: none;
+  display: none; /* hide default upload button */
 }
 
-.details .pfp_upload label {
+.details .pfp_upload label { /* custom button */
   margin-left: 10px;
   border: solid;
   background-color: #efefef;

@@ -5,37 +5,36 @@ from flask.cli import with_appcontext
 from datetime import datetime
 from base64 import b64encode
 
-@click.command(name='seed')
-@with_appcontext
+@click.command(name='seed') # allows this function to be imported to app.py
+@with_appcontext            # & then registered to a terminal command (flask seed)
 def seed():
-    Approval.query.delete()
+    Approval.query.delete() # everything in the database needs deleted in order for table relations
     Comment.query.delete()
     Post.query.delete()
     Friendship.query.delete()
     Friend.query.delete()
     User.query.delete()
     
-    kev_pfp=open("seed_pfp/kev.jpg","rb").read()
+    kev_pfp=open("seed_pfp/kev.jpg","rb").read() # open seed pfps as binary
     dan_pfp=open("seed_pfp/dan.jpg","rb").read()
     shelly_pfp=open("seed_pfp/shelly.jpg","rb").read()
-    kev_pfp=b64encode(kev_pfp).decode("utf-8")
+    kev_pfp=b64encode(kev_pfp).decode("utf-8") # convert to base64
     dan_pfp=b64encode(dan_pfp).decode("utf-8")
     shelly_pfp=b64encode(shelly_pfp).decode("utf-8")
-    print(2)
-    users=[User(name="kev",password="kev123",pfp=kev_pfp),
+    users=[User(name="kev",password="kev123",pfp=kev_pfp), # create seed users
         User(name="dan",password="password",pfp=dan_pfp),
         User(name="shelly (my cat)",password="meow",pfp=shelly_pfp)]
-    [db.session.add(user) for user in users]
+    [db.session.add(user) for user in users] # add to databse
     
     users=User.query.all()
-    kev_id=[user.id for user in users if user.name=="kev"][0]
-    dan_id=[user.id for user in users if user.name=="dan"][0]
+    kev_id=[user.id for user in users if user.name=="kev"][0] # get their id's for linking other seed records
+    dan_id=[user.id for user in users if user.name=="dan"][0] # in database
     shelly_id=[user.id for user in users if user.name=="shelly (my cat)"][0]
-    kev=User.query.get(kev_id)
-    print(kev.roulette)
     
+    # create record in dummy table "friends" for each user in users table
     [db.session.add(Friend(id=user.id)) for user in users]
     
+    # create friendships between seed users
     friendships=[Friendship(user_id=kev_id,friend_id=shelly_id),Friendship(user_id=shelly_id,friend_id=kev_id),
                 Friendship(user_id=shelly_id,friend_id=dan_id),Friendship(user_id=dan_id,friend_id=shelly_id)]
     [db.session.add(friendship) for friendship in friendships]
@@ -50,7 +49,7 @@ def seed():
     [db.session.add(post) for post in posts]
     
     posts=Post.query.all()
-    footy_id=[post.id for post in posts if post.content[0]=="c"][0]
+    footy_id=[post.id for post in posts if post.content[0]=="c"][0] # post id's for linking comments, approvals
     nodm_id=[post.id for post in posts if post.content[0]=="n"][0]
     chainmail_id=[post.id for post in posts if post.content[0]=="i"][0]
     
@@ -70,4 +69,4 @@ def seed():
             Approval(user_id=dan_id,ispost=False,comment_id=boo_id)]
     [db.session.add(approval) for approval in approvals]
     
-    db.session.commit()
+    db.session.commit() # commit all changes to postgresql database
