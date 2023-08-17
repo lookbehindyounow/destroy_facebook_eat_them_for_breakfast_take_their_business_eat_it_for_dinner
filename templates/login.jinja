@@ -13,6 +13,7 @@
         <br/>
         <div class="login container">
             <form action={% if new %}"/signup"{% else %}"/login"{% endif %} method="post">
+                {# links to switch between login/signup #}
                 {% if new %}
                     <a class="post--link" href="/">--> I have an account <--</a>
                 {% else %}
@@ -20,20 +21,24 @@
                 {% endif %}
                 <br/>
                 <br/>
+                {# name & password input #}
                 <label for="name">Name:</label>
                 <input type="text" name="name" id="name" required/>
                 <label for="password">Password:</label>
                 {% if new %}
                     <input type="text" name="password" id="password" required/>
                 {% else %}
+                    {# dropdown menu for passwords when logging in #}
                     <select name="password" id="password">
                         {% for password in passwords %}
                             <option value="{{password}}">{{password}}</option>
                         {% endfor %}
                     </select>
                 {% endif %}
+                {# submit button #}
                 <button type="submit">{% if new %}Sign up{% else %}Log in{% endif %}</button>
                 {% if login_message %}
+                    {# message if signup details already exist or login details are incorrect #}
                     {% if new %}
                         <p>this user already exists</p>
                     {% else %}

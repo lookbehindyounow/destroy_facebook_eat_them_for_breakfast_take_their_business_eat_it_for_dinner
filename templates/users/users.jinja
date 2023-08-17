@@ -1,14 +1,19 @@
 {% extends 'composite/base.jinja' %}{% block content %}
 <ul class="users">
     {% for user in users %}
+        {# user list #}
         <li>
             <a class="profile_link" href="/{{user_id}}/profile/{{user.id}}">
                 {% if user.pfp %}
+                    {# pfp #}
                     <img src="data:;base64,{{user.pfp}}"/>
                 {% endif %}
+                {# name #}
                 <p>{{user.name}} - </p>
             </a>
+            {# button do add/remove friend #}
             {% if user.id==user_id %}
+                {# unless it's the current user's profile, then it just links to their page #}
                 <a class="post--link" href="/{{user_id}}/profile/{{user.id}}">My profile</a>
             {% elif user.id in friends_ids %}
                 <a class="remove_friend post--link"

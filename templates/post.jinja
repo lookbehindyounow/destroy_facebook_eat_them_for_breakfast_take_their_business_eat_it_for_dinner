@@ -5,32 +5,40 @@
             <span class="post__top">
                 <a class="profile_link" href="/{{user_id}}/profile/{{post.user_id}}">
                     {% if post.pfp %}
+                        {# pfp #}
                         <img src="data:;base64,{{post.pfp}}"/>
                     {% endif %}
+                    {# name #}
                     <h3 class="name">{{post.name}}</h3>
                 </a>
+                {# public/private indicator #}
                 {% if post.public %}
                     <p class="audience">public</p>
                 {% else %}
                     <p class="audience">friends only</p>
                 {% endif %}
             </span>
+            {# content #}
             <p>{{post.content}}</p>
             <br/>
+            {# finds out if user has approved the post #}
             {% set ns=namespace(mine=false) %}
             {% for approval in post.approvals %}
                 {% if approval.user_id==user_id %}
                     {% set ns.mine = true %}
                 {% endif %}
             {% endfor %}
+            {# approval button #}
             <a class="post--link{% if ns.mine %} mine{% endif %}" href="/{{user_id}}/{{post.id}}/approve/0">
                 {{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}
             </a>
         </div>
         <div class="post__right">
+            {# time posted #}
             <p>{{post.when}}</p>
             {% if user_id==post.user_id %}
                 <div class="alter_buttons">
+                    {# edit/delete buttons #}
                     <a class="alter__edit" href="/{{user_id}}/{{post.id}}/edit_post_form">edit</a>
                     <br/>
                     <a class="alter__delete" href="/{{user_id}}/{{post.id}}/delete_post">X</a>
@@ -44,8 +52,10 @@
             <div class="comment__left">
                 <a class="profile_link" href="/{{user_id}}/profile/{{comment.user_id}}">
                     {% if comment.pfp %}
+                        {# commenter's pfp #}
                         <img src="data:;base64,{{comment.pfp}}"/>
                     {% endif %}
+                    {# & so on #}
                     <h5>{{comment.name}}</h5>
                 </a>
                 <p>{{comment.content}}</p>
@@ -80,7 +90,9 @@
         </div>
     {% endfor %}
     <div class="comment_input_box_restrictor">
+        {# if accessing page from the /<int:user_id>/<int:post_id>/new_comment_form route, the form will go here #}
         {% block form %}
+            {# add comment button #}
             <a class="comment_button" href="/{{user_id}}/{{post.id}}/new_comment_form">comment</a>
         {% endblock form %}
     </div>
