@@ -1,40 +1,50 @@
 {% extends 'composite/base.jinja' %}{% block content %}
 <aside class="details">
     {% if profile.pfp %}
+        {# pfp #}
         <img class="pfp" src="data:;base64,{{profile.pfp}}"/>
     {% endif %}
+    {# name & password #}
     <h3>{{profile.name}}</h3>
     <p>password: {{profile.password}}</p>
     <br/>
+    {# friends list #}
     <p>Friends:</p>
     <ul class="friends_list">
         {% set friends_ids=[] %}
         {% for friend in profile.friends_list %}
+            {# each friend's pfp & name #}
             <li><a class="profile_link" href="/{{user_id}}/profile/{{friend.id}}">
                 {% if friend.pfp %}
                     <img src="data:;base64,{{friend.pfp}}"/>
                 {% endif %}
                 <p>{{friend.name}}</p>
             </a></li>
+            {# save friends_ids for later #}
             {% set friends_ids=friends_ids.append(friend.id) %}
         {% endfor %}
     </ul>
     <br/>
     {% if profile.id==user_id %}
-        {# talk about enctype here #}
+        {# if it's current user's profile page #}
+        {# enctype="multipart/form-data" allows files to be submitted #}
         <form class="pfp_upload" action="/{{user_id}}/profile/pfp" method="post" enctype="multipart/form-data">
             <label for="profile_picture">upload picture</label>
+            {# file input that accepts image types #}
             <input type="file" id="profile_picture" name="profile_picture" accept="image/*" required/>
             <button type="submit">update profile picture</button>
         </form>
         <br/>
         <a class="delete_profile" href="/{{user_id}}/profile/delete">Delete profile</a>
     {% elif user_id in friends_ids %}
+        {# if it's a friend (using friends_ids from earlier) option to remove friend #}
         <a class="post--link remove_friend" href="/{{user_id}}/profile/{{profile.id}}/remove">Remove friend</a>
     {% else %}
+        {# if not, option to add #}
         <a class="post--link add_friend" href="/{{user_id}}/profile/{{profile.id}}/add">+Add friend</a>
     {% endif %}
 </aside>
 <hr/>
+{# A post feed is inserted here. The posts shown are posts made by the user who's page you're on, this is handled in users_controller.py #}
 {% block feed %}{% endblock feed %}
 {% endblock content %}

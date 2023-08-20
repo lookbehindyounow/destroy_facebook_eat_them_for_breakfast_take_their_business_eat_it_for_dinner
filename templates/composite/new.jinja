@@ -1,23 +1,38 @@
 {% if role=="Post" %}
+    {# if making a post, block form extends base.jinja directly #}
+    {# form submit redirects to home feed #}
+    {# place_val will be greyed out placeholder text #}
     {% extends "composite/base.jinja" %}
     {% set form_action = "" %}
     {% set place_val="you have to tell them they need to know" %}
 {% elif role=="Update Post" %}
+    {# if editing a post, block form extends base.jinja directly #}
+    {# form submit redirects to post's edit link #}
+    {# value in text input is pre-existing post content #}
     {% extends "composite/base.jinja" %}
     {% set form_action = "/" ~ post.id ~ "/edit_post" %}
     {% set place_val=post.content %}
 {% elif role=="Comment" %}
+    {# if making a comment, block form extends post.jinja #}
+    {# form submit redirects to parent post's page #}
+    {# place_val will be greyed out placeholder text #}
     {% extends "post.jinja" %}
     {% set form_action = "/" ~ post.id %}
     {% set place_val="they care so much they want to hear your thoughts on the matter no really they do" %}
 {% elif role=="Update Comment" %}
+    {# if editing a comment, block form extends post.jinja #}
+    {# form submit redirects to comment's edit link #}
+    {# value in text input is pre-existing comment content #}
     {% extends "post.jinja" %}
     {% set form_action = "/" ~ post.id ~ "/" ~ comment.id  ~ "/edit_comment"%}
     {% set place_val=comment.content %}
 {% endif %}
 
 {% block form %}
+{# {{form action}} inserted here #}
 <form action=/{{user_id}}{{form_action}} method="post">
+    {# text input #}
+    {# if role starts with "Update", set value to place_val, otherwise set placeholder to place_val #}
     <input type="text" name="content" id="content" {% if role[:6]=="Update" %}
         value="{{place_val}}"
     {% else %}
@@ -25,12 +40,17 @@
     {% endif %} required autofocus/>
     {% if role[-4:]=="Post" %}
         <div class="public">
+            {# if role ends with "Post", show a checkbox for public/friends only #}
             <label for="public">Public</label>
+            {# if role is "Update Post" (because post.public would throw a reference error if role is
+            just "Post" as there's no pre-existing post object to pass to jinja) & then if post.public
+            is true, have the checkbox already checked #}
             <input type="checkbox" name="public" id="public" {% if role=="Update Post" %}
                 {% if post.public %} checked {% endif %}
             {% endif %}>
         </div>
     {% endif %}
+    {# button text is role #}
     <button type="submit">{{role}}</button>
 </form>
 {% endblock form %}

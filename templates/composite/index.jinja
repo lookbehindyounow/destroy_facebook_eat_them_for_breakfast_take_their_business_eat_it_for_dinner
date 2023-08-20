@@ -1,13 +1,20 @@
 {% extends "composite/base.jinja" %}{% block content %}
     <section class="home_feed">
+        {# post feed inserted here, shows current user's posts, friend's posts &
+        public posts from anyone else. This is handled in posts_controller.py #}
         {% block feed %}{% endblock feed %}
     </section>
+    {# unfinished roulette section #}
     <section class="gambling">
+        {# This is the roulette wheel image. the style="animation... adds css to
+        the element if boolean roulette.wheel is true, the animation is defined
+        in @keyframes rotation in style.css #}
         <img class="wheel"
         {% if roulette.wheel %}
             style="animation: rotation 1s infinite linear;"
         {% endif %}
         src="/static/roulette.png" alt="gambling"/>
+        {# Here's the ball, same thing for roulette.ball #}
         <div class="ball_square">
             <img class="ball" {% if roulette.ball %}
                 style="animation: back_rotation 1s infinite linear;"

@@ -1,3 +1,4 @@
+{# login page has no nav bar, so cannot extend base.jinja, so needs it's own head section #}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,6 +13,7 @@
         </header>
         <br/>
         <div class="login container">
+            {# form action is controlled by boolean new #}
             <form action={% if new %}"/signup"{% else %}"/login"{% endif %} method="post">
                 {# links to switch between login/signup #}
                 {% if new %}
@@ -38,9 +40,10 @@
                 {# submit button #}
                 <button type="submit">{% if new %}Sign up{% else %}Log in{% endif %}</button>
                 {% if login_message %}
-                    {# message if signup details already exist or login details are incorrect #}
+                    {# if login_message boolean is true,
+                    determined in login_page() in users_controller.py #}
                     {% if new %}
-                        <p>this user already exists</p>
+                        <p>this username & password combinaition already exists</p>
                     {% else %}
                         <p>incorrect username or password</p>
                     {% endif %}

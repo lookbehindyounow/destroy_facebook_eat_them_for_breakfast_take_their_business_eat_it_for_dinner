@@ -8,6 +8,7 @@
   </head>
   <body>
     <header>
+      {# nav bar #}
       <nav class="menu">
         <img src="/static/logo.png" alt="Welcome to PersonCatalog"/>
         <ul>
@@ -20,6 +21,9 @@
     </header>
     <div class="not_nav container">
     {% block content %}
+      {# if there is no block called content, it shows the block called form,
+      which happens when making or editing a post & base.jinja is exended
+      directly by new.jinja #}
       <div class="focused_container">{% block form %}{% endblock form %}</div>
     {% endblock %}
     </div>
