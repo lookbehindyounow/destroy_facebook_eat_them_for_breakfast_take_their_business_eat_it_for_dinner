@@ -95,9 +95,9 @@ def delete_comment(user_id,post_id,comment_id):
     db.session.commit()
     return redirect(f"/{user_id}/{post_id}") # redirect to parent post's page
 
-@posts_blueprint.route("/<int:user_id>/<int:post_id>/approve/<int:fromfeed>")
-@posts_blueprint.route("/<int:user_id>/<int:post_id>/<int:comment_id>/approve")
-def approve(user_id,post_id,comment_id=None,fromfeed=False):
+@posts_blueprint.route("/<int:user_id>/<int:post_id>/approve/<int:be_where>") # approving post
+@posts_blueprint.route("/<int:user_id>/<int:post_id>/<int:comment_id>/approve") # approving comment
+def approve(user_id,post_id,comment_id=None,be_where=0):
     if comment_id==None: # if you've approved a post
         approvals=Approval.query.filter_by(user_id=user_id,post_id=post_id).all()
     else: # if you've approved a comment
@@ -111,6 +111,10 @@ def approve(user_id,post_id,comment_id=None,fromfeed=False):
     else: # if current user has approvals for this post/comment (should only be 1):
         [db.session.delete(approval) for approval in approvals] # remove them all (unapprove)
     db.session.commit()
-    if fromfeed: # if approving from feed, redirect to home feed, otherwise redirect to post page
-        return redirect(f"/{user_id}") # BUG just realised if approving from profile page feed, it redirects to home feed
-    return redirect(f"/{user_id}/{post_id}")
+    if be_where==1: # if approving from a profile feed, redirect to said profile feed
+        profile_id=Post.query.get(post_id).user_id
+        return redirect(f"/{user_id}/profile/{profile_id}")
+    elif be_where==2: # if approving from home feed, redirect to home feed
+        return redirect(f"/{user_id}")
+    else: # otherwise, redirect to post page
+        return redirect(f"/{user_id}/{post_id}")

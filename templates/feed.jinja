@@ -40,7 +40,7 @@
                     {% endfor %}
                     {# approval button #}
                     <a class="post--link{% if ns.mine %} mine{% endif %}"
-                    href="/{{user_id}}/{{post.id}}/approve/1">
+                    href="/{{user_id}}/{{post.id}}/approve/{% if isprofile %}1{% else %}2{% endif %}">
                         {{post.approvals|length}} approval{% if post.approvals|length!=1 %}s{% endif %}
                     </a>
                 </span>
