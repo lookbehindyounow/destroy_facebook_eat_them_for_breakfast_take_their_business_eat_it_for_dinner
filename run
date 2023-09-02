@@ -1,0 +1,7 @@
+createdb personcatalog
+flask db init
+flask db migrate
+flask db upgrade
+flask seed
+open http://localhost:4993
+flask run
